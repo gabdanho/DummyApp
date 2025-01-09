@@ -1,4 +1,4 @@
-package com.example.authapp.ui.theme.screens
+package com.example.authapp.ui.screens
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
@@ -30,17 +30,18 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.authapp.R
-import com.example.authapp.model.AuthUiState
-import com.example.authapp.model.UserLogin
-import com.example.authapp.model.fake.FakeDataClass
+import com.example.authapp.ui.model.AuthUiState
+import com.example.authapp.ui.model.UserLogin
+import com.example.authapp.ui.screens.proccesing.ErrorScreen
+import com.example.authapp.ui.screens.proccesing.LoadingScreen
 
 @Composable
 fun MainScreen(
+    modifier: Modifier = Modifier,
     authUiState: AuthUiState,
     onLogoutClick: () -> Unit,
     onMyDetailsClick: () -> Unit,
@@ -49,7 +50,7 @@ fun MainScreen(
 ) {
     when(authUiState) {
         is AuthUiState.Success -> {
-            Scaffold { innerPadding ->
+            Scaffold(modifier = modifier) { innerPadding ->
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.padding(innerPadding)
@@ -91,8 +92,8 @@ fun MainScreen(
 
 @Composable
 fun UserTopInfo(
-    userLogin: UserLogin,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    userLogin: UserLogin
 ) {
     Row(
         modifier = modifier
@@ -130,10 +131,10 @@ fun UserTopInfo(
 
 @Composable
 fun CardsMain(
+    modifier: Modifier = Modifier,
     onMyDetailsClick: () -> Unit,
     onMyPostsClick: () -> Unit,
-    onFoundPersonClick: () -> Unit,
-    modifier: Modifier = Modifier
+    onFoundPersonClick: () -> Unit
 ) {
     Column(modifier = modifier) {
         // Card: My Details
@@ -142,7 +143,7 @@ fun CardsMain(
             cardName = "My Details",
             textStyle = MaterialTheme.typography.headlineLarge,
             onCardClick = onMyDetailsClick,
-            cardModifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth()
         )
         Row(modifier = Modifier.padding(vertical = 8.dp)) {
             // Card: My Posts
@@ -151,7 +152,7 @@ fun CardsMain(
                 cardName = "My Posts",
                 textStyle = MaterialTheme.typography.titleSmall,
                 onCardClick = onMyPostsClick,
-                cardModifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f)
             )
             Spacer(modifier = Modifier.width(8.dp))
             // Card: Found Person
@@ -160,7 +161,7 @@ fun CardsMain(
                 cardName = "Found Person",
                 textStyle = MaterialTheme.typography.titleSmall,
                 onCardClick = onFoundPersonClick,
-                cardModifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f)
             )
         }
     }
@@ -169,11 +170,11 @@ fun CardsMain(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun createCard(
+    modifier: Modifier = Modifier,
     @DrawableRes imagerRes: Int,
     cardName: String,
     textStyle: TextStyle,
-    onCardClick: () -> Unit,
-    cardModifier: Modifier
+    onCardClick: () -> Unit
 ) {
     Card(
         content = {
@@ -196,18 +197,18 @@ fun createCard(
             }
         },
         onClick = onCardClick,
-        modifier = cardModifier
+        modifier = modifier
     )
 }
 
-@Preview
-@Composable
-fun MainScreenPreview() {
-    MainScreen(
-        authUiState = AuthUiState.Success(FakeDataClass.fakeUserLogin),
-        onLogoutClick = { },
-        onMyDetailsClick = { },
-        onMyPostsClick = { },
-        onFoundPersonClick = { }
-    )
-}
+//@Preview
+//@Composable
+//fun MainScreenPreview() {
+//    MainScreen(
+//        authUiState = AuthUiState.Success(FakeDataClass.fakeUserLogin),
+//        onLogoutClick = { },
+//        onMyDetailsClick = { },
+//        onMyPostsClick = { },
+//        onFoundPersonClick = { }
+//    )
+//}

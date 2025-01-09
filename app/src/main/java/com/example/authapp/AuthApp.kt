@@ -3,9 +3,9 @@ package com.example.authapp
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.authapp.navigation.AuthNavGraph
+import com.example.authapp.ui.navigation.AuthNavGraph
 
 @Composable
 fun AuthApp(navController: NavHostController = rememberNavController()) {
-    AuthNavGraph(navController)
+    AuthNavGraph(navController = navController)
 }

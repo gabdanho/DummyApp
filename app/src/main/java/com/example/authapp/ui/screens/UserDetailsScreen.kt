@@ -1,4 +1,4 @@
-package com.example.authapp.ui.theme.screens
+package com.example.authapp.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -27,16 +27,17 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.example.authapp.model.CurrentUserUiState
-import com.example.authapp.model.User
-import com.example.authapp.model.fake.FakeDataClass
+import com.example.authapp.ui.model.CurrentUserUiState
+import com.example.authapp.ui.model.User
+import com.example.authapp.ui.screens.proccesing.ErrorScreen
+import com.example.authapp.ui.screens.proccesing.LoadingScreen
 
 @Composable
 fun UserDetailsScreen(
+    modifier: Modifier = Modifier,
     currentUserUiState: CurrentUserUiState,
     onBackButtonClick: () -> Unit,
     onPostsClick: (Int) -> Unit,
@@ -45,6 +46,7 @@ fun UserDetailsScreen(
     when(currentUserUiState) {
         is CurrentUserUiState.Success -> {
             UserDetails(
+                modifier = modifier,
                 currentUser = currentUserUiState.currentUser,
                 onBackButtonClick = onBackButtonClick,
                 onPostsClick = onPostsClick,
@@ -62,11 +64,11 @@ fun UserDetailsScreen(
 
 @Composable
 fun UserDetails(
+    modifier: Modifier = Modifier,
     currentUser: User,
     onBackButtonClick: () -> Unit,
     onPostsClick: (Int) -> Unit,
     isAnotherUser: Boolean,
-    modifier: Modifier = Modifier
 ) {
     val columnNames = listOf(
         "Birthday" to currentUser.birthDate,
@@ -163,13 +165,13 @@ fun UserDetails(
     }
 }
 
-@Preview
-@Composable
-fun UserDetailsPreview() {
-    UserDetails(
-        currentUser = FakeDataClass.fakeCurrentUser,
-        onBackButtonClick = { },
-        onPostsClick = { },
-        isAnotherUser = true
-    )
-}
+//@Preview
+//@Composable
+//fun UserDetailsPreview() {
+//    UserDetails(
+//        currentUser = FakeDataClass.fakeCurrentUser,
+//        onBackButtonClick = { },
+//        onPostsClick = { },
+//        isAnotherUser = true
+//    )
+//}

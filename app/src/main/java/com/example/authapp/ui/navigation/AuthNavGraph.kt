@@ -1,37 +1,38 @@
-package com.example.authapp.navigation
+package com.example.authapp.ui.navigation
 
 import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.authapp.model.AuthUiState
-import com.example.authapp.ui.theme.screens.AuthScreen
-import com.example.authapp.ui.theme.screens.AuthViewModel
-import com.example.authapp.ui.theme.screens.AuthorizationViewModel
-import com.example.authapp.ui.theme.screens.MainScreen
-import com.example.authapp.ui.theme.screens.SearchPersonScreen
-import com.example.authapp.ui.theme.screens.SelectedPostScreen
-import com.example.authapp.ui.theme.screens.UserDetailsScreen
-import com.example.authapp.ui.theme.screens.UserPostsScreen
+import com.example.authapp.ui.model.AuthUiState
+import com.example.authapp.ui.screens.AuthScreen
+import com.example.authapp.ui.screens.AuthViewModel
+import com.example.authapp.ui.screens.AuthorizationViewModel
+import com.example.authapp.ui.screens.MainScreen
+import com.example.authapp.ui.screens.SearchPersonScreen
+import com.example.authapp.ui.screens.SelectedPostScreen
+import com.example.authapp.ui.screens.UserDetailsScreen
+import com.example.authapp.ui.screens.UserPostsScreen
 
 @Composable
 fun AuthNavGraph(
-    navController: NavHostController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    authViewModel: AuthViewModel = viewModel<AuthViewModel>(),
+    authorizationViewModel: AuthorizationViewModel = viewModel<AuthorizationViewModel>(),
+    navController: NavHostController
 ) {
-    val authViewModel = hiltViewModel<AuthViewModel>()
-    val authorizationViewModel = AuthorizationViewModel()
+    val authorizationUiState = authorizationViewModel.uiState.collectAsState()
+    val searchPersonsUiState = authViewModel.searchPersonsUiState
 
     NavHost(
         navController = navController,
@@ -41,12 +42,20 @@ fun AuthNavGraph(
         composable(route = NavigationDestination.Start.name) {
             AuthScreen(
                 authUser = authViewModel::authUser,
-                authorizationViewModel = authorizationViewModel,
+                passwordVisible = authorizationUiState.value.passwordVisible,
+                password = authorizationUiState.value.password,
+                username = authorizationUiState.value.username,
+                isAuthError = authorizationUiState.value.isAuthError,
+                updateAuthError = authorizationViewModel::updateAuthError,
+                updateUsername = authorizationViewModel::updateUsername,
+                updatePasswordVisible = authorizationViewModel::updatePasswordVisible,
+                updatePassword = authorizationViewModel::updatePassword,
                 onLoginClick = {
                     navController.navigate(NavigationDestination.MainScreen.name)
                 }
             )
         }
+
         composable(
             route = NavigationDestination.MainScreen.name,
             exitTransition = { ExitTransition.None }
@@ -59,13 +68,15 @@ fun AuthNavGraph(
                     navController.navigate(NavigationDestination.Start.name)
                 },
                 onMyDetailsClick = {
-                    navController.navigate(NavigationDestination.UserDetails.name
+                    navController.navigate(
+                        NavigationDestination.UserDetails.name
                             + "/${(authViewModel.authUiState as AuthUiState.Success).user.id}"
                             + "/${false}"
                     )
                 },
                 onMyPostsClick = {
-                    navController.navigate(NavigationDestination.Posts.name
+                    navController.navigate(
+                        NavigationDestination.Posts.name
                             + "/${(authViewModel.authUiState as AuthUiState.Success).user.id}")
                 },
                 onFoundPersonClick = {
@@ -73,6 +84,7 @@ fun AuthNavGraph(
                 }
             )
         }
+
         composable(
             route = NavigationDestination.UserDetails.name + "/{userId}/{isAnotherUser}",
             exitTransition = {
@@ -96,6 +108,7 @@ fun AuthNavGraph(
                 isAnotherUser = entry.arguments?.getBoolean("isAnotherUser") ?: false
             )
         }
+
         composable(
             route = NavigationDestination.Posts.name + "/{userId}",
             exitTransition = {
@@ -117,6 +130,7 @@ fun AuthNavGraph(
                 }
             )
         }
+
         composable(
             route = NavigationDestination.SelectedPost.name + "/{postId}",
             enterTransition = {
@@ -144,6 +158,7 @@ fun AuthNavGraph(
                 }
             )
         }
+
         composable(
             route = NavigationDestination.FoundPerson.name,
             exitTransition = {
@@ -151,14 +166,16 @@ fun AuthNavGraph(
             },
         ) {
             SearchPersonScreen(
+                searchPersonsUiState = searchPersonsUiState,
                 authUserId = (authViewModel.authUiState as AuthUiState.Success).user.id,
-                authViewModel = authViewModel,
                 onBackButtonClick = {
                     authViewModel.resetSearchTextAndSearchPersonsUiState()
                     navController.popBackStack()
                 },
+                updateSearchText = authViewModel::updateSearchText,
                 onCurrentUserClick = { userId ->
-                    navController.navigate(NavigationDestination.UserDetails.name
+                    navController.navigate(
+                        NavigationDestination.UserDetails.name
                             + "/${userId}"
                             + "/${true}")
                 }

@@ -1,4 +1,4 @@
-package com.example.authapp.ui.theme.screens
+package com.example.authapp.ui.screens
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -9,7 +9,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -21,16 +20,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.authapp.model.Comment
-import com.example.authapp.model.CurrentPostUiState
-import com.example.authapp.model.Post
-import com.example.authapp.model.PostCommentsUiState
-import com.example.authapp.model.fake.FakeDataClass
+import com.example.authapp.ui.model.Comment
+import com.example.authapp.ui.model.CurrentPostUiState
+import com.example.authapp.ui.model.Post
+import com.example.authapp.ui.model.PostCommentsUiState
+import com.example.authapp.ui.screens.proccesing.ErrorScreen
+import com.example.authapp.ui.screens.proccesing.LoadingScreen
 
 @Composable
 fun SelectedPostScreen(
+    modifier: Modifier = Modifier,
     postCommentsUiState: PostCommentsUiState,
     currentPostUiState: CurrentPostUiState,
     onBackButtonClick: () -> Unit
@@ -43,6 +43,7 @@ fun SelectedPostScreen(
     when(currentPostUiState) {
         is CurrentPostUiState.Success -> {
             SelectedPost(
+                modifier = modifier,
                 post = currentPostUiState.post,
                 postComments = postComments,
                 onBackButtonClick = onBackButtonClick
@@ -59,12 +60,11 @@ fun SelectedPostScreen(
 
 @Composable
 fun SelectedPost(
+    modifier: Modifier = Modifier,
     post: Post,
     postComments: List<Comment>,
-    onBackButtonClick: () -> Unit,
-    modifier: Modifier = Modifier
+    onBackButtonClick: () -> Unit
 ) {
-
     Scaffold(
         topBar = {
             PostTopBar(
@@ -78,19 +78,20 @@ fun SelectedPost(
                 innerPadding = innerPadding,
                 post = post
             )
-            PostComments(postComments)
+            PostComments(postComments = postComments)
         }
     }
 }
 
 @Composable
 fun PostTopBar(
+    modifier: Modifier = Modifier,
     postTitle: String,
     onBackButtonClick: () -> Unit,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.padding(start = 8.dp, top = 8.dp)
+        modifier = modifier.padding(start = 8.dp, top = 8.dp)
     ) {
         OutlinedButton(
             onClick = onBackButtonClick,
@@ -114,11 +115,12 @@ fun PostTopBar(
 
 @Composable
 fun PostBody(
+    modifier: Modifier = Modifier,
     post: Post,
     innerPadding: PaddingValues
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .padding(8.dp)
             .padding(innerPadding)
     ) {
@@ -144,8 +146,11 @@ fun PostBody(
 }
 
 @Composable
-fun PostComments(postComments: List<Comment>) {
-    Divider(modifier = Modifier.padding(vertical = 8.dp), color = Color.Black)
+fun PostComments(
+    modifier: Modifier = Modifier,
+    postComments: List<Comment>
+) {
+    Divider(modifier = modifier.padding(vertical = 8.dp), color = Color.Black)
     Text(
         text = "Comments",
         style = MaterialTheme.typography.titleMedium,
@@ -170,12 +175,12 @@ fun PostComments(postComments: List<Comment>) {
     }
 }
 
-@Preview
-@Composable
-fun SelectedPostPreview() {
-    SelectedPost(
-        postComments = FakeDataClass.commentsPost.comments,
-        post = FakeDataClass.fakePost,
-        onBackButtonClick = { }
-    )
-}
+//@Preview
+//@Composable
+//fun SelectedPostPreview() {
+//    SelectedPost(
+//        postComments = FakeDataClass.commentsPost.comments,
+//        post = FakeDataClass.fakePost,
+//        onBackButtonClick = { }
+//    )
+//}

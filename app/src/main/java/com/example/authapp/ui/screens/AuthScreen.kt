@@ -1,10 +1,8 @@
-package com.example.authapp.ui.theme.screens
+package com.example.authapp.ui.screens
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -22,43 +20,48 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.example.authapp.R
-import com.example.authapp.data.NetworkUserRepository
-import com.example.authapp.model.AuthRequest
-import com.example.authapp.network.mock.MockUserApiService
+import com.example.authapp.ui.model.AuthRequest
 
 @Composable
 fun AuthScreen(
+    modifier: Modifier = Modifier,
+    isAuthError: Boolean?,
+    password: String,
+    username: String,
+    passwordVisible: Boolean,
+    updatePassword: (String) -> Unit,
+    updateAuthError: (Boolean) -> Unit,
+    updatePasswordVisible: () -> Unit,
+    updateUsername: (String) -> Unit,
     authUser: (AuthRequest) -> LiveData<Boolean>,
-    onLoginClick: () -> Unit,
-    authorizationViewModel: AuthorizationViewModel,
-    modifier: Modifier = Modifier
+    onLoginClick: () -> Unit
 ) {
     Scaffold(
         topBar = { TopAppBarAuth() },
         content = { contentPadding ->
             AuthBody (
+                modifier = Modifier.padding(contentPadding),
                 authUser = authUser,
-                authorizationViewModel = authorizationViewModel,
+                isAuthError = isAuthError,
+                password = password,
+                username = username,
+                passwordVisible = passwordVisible,
                 onLoginClick = onLoginClick,
-                contentPadding = contentPadding
+                updatePassword = updatePassword,
+                updateAuthError = updateAuthError,
+                updatePasswordVisible = updatePasswordVisible,
+                updateUsername = updateUsername
             )
         },
         modifier = modifier
@@ -80,29 +83,32 @@ fun TopAppBarAuth(
 
 @Composable
 fun AuthBody(
+    modifier: Modifier = Modifier,
+    username: String,
+    password: String,
+    isAuthError: Boolean?,
+    passwordVisible: Boolean,
     authUser: (AuthRequest) -> LiveData<Boolean>,
-    authorizationViewModel: AuthorizationViewModel,
+    updateUsername: (String) -> Unit,
+    updatePassword: (String) -> Unit,
     onLoginClick: () -> Unit,
-    contentPadding: PaddingValues = PaddingValues(0.dp),
-    modifier: Modifier = Modifier
+    updatePasswordVisible: () -> Unit,
+    updateAuthError: (Boolean) -> Unit
 ) {
-    val uiState by authorizationViewModel.uiState.collectAsState()
-    val authResult by authUser(AuthRequest(uiState.username, uiState.password)).observeAsState()
+    val authResult by authUser(AuthRequest(username, password)).observeAsState()
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
-        modifier = modifier
-            .padding(contentPadding)
-            .fillMaxSize()
+        modifier = modifier.fillMaxSize()
     ) {
-        ErrorText(uiState.isAuthError)
+        ErrorText(isAuthError)
         Spacer(modifier = Modifier.height(24.dp))
         AuthLogo()
         // Username TextField
         OutlinedTextField(
-            value = uiState.username,
-            onValueChange = authorizationViewModel::updateUsername,
+            value = username,
+            onValueChange = { updateUsername(it) },
             placeholder = { Text(text = "Username") },
             singleLine = true,
             modifier = Modifier
@@ -111,19 +117,19 @@ fun AuthBody(
         )
         // Password TextField
         OutlinedTextField(
-            value = uiState.password,
-            onValueChange = authorizationViewModel::updatePassword,
+            value = password,
+            onValueChange = { updatePassword(it) },
             placeholder = { Text(text = "Password") },
             singleLine = true,
-            visualTransformation = if (!uiState.passwordVisible)
+            visualTransformation = if (!passwordVisible)
                 PasswordVisualTransformation()
             else VisualTransformation.None,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             trailingIcon = {
-                val icon = if (uiState.passwordVisible)
+                val icon = if (passwordVisible)
                     R.drawable.show_password
                 else R.drawable.hide_password
-                IconButton(onClick = { authorizationViewModel.updatePasswordVisible() }) {
+                IconButton(onClick = { updatePasswordVisible() }) {
                     Icon(
                         painter = painterResource(icon),
                         contentDescription = "Show Password",
@@ -142,7 +148,7 @@ fun AuthBody(
                     onLoginClick()
                 }
                 else {
-                    authorizationViewModel.updateAuthError(authResult != true)
+                    updateAuthError(authResult != true)
                 }
             },
             modifier = Modifier

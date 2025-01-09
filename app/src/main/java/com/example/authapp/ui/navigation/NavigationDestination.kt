@@ -1,4 +1,4 @@
-package com.example.authapp.navigation
+package com.example.authapp.ui.navigation
 
 enum class NavigationDestination {
     Start,

@@ -1,4 +1,4 @@
-package com.example.authapp.ui.theme.screens
+package com.example.authapp.ui.screens.proccesing
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearOutSlowInEasing
@@ -29,6 +29,7 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun LoadingScreen(
+    modifier: Modifier = Modifier,
     circleSize: Dp = 25.dp,
     circleColor: Color = MaterialTheme.colorScheme.primary,
     spaceBetween: Dp = 10.dp,
@@ -64,7 +65,7 @@ fun LoadingScreen(
     val lastCircle = circleValues.size - 1
 
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
         Row{

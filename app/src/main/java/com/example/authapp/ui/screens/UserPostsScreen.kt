@@ -1,4 +1,4 @@
-package com.example.authapp.ui.theme.screens
+package com.example.authapp.ui.screens
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,7 +12,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -24,19 +23,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.authapp.model.Post
-import com.example.authapp.model.UserPosts
-import com.example.authapp.model.UserPostsUiState
-import com.example.authapp.model.fake.FakeDataClass
+import com.example.authapp.ui.model.Post
+import com.example.authapp.ui.model.UserPosts
+import com.example.authapp.ui.model.UserPostsUiState
+import com.example.authapp.ui.screens.proccesing.ErrorScreen
+import com.example.authapp.ui.screens.proccesing.LoadingScreen
 
 @Composable
 fun UserPostsScreen(
+    modifier: Modifier = Modifier,
     userPostsUiState: UserPostsUiState,
     onBackButtonClick: () -> Unit,
-    onPostClick: (Int) -> Unit,
-    modifier: Modifier = Modifier
+    onPostClick: (Int) -> Unit
 ) {
     when(userPostsUiState) {
         is UserPostsUiState.Success -> {
@@ -93,9 +92,9 @@ fun PostScreenTopBar(
 
 @Composable
 fun PostsList(
+    modifier: Modifier = Modifier,
     userPosts: UserPosts,
-    onPostClick: (Int) -> Unit,
-    modifier: Modifier = Modifier
+    onPostClick: (Int) -> Unit
 ) {
     if (userPosts.posts.isNotEmpty()) {
         LazyColumn(modifier = modifier) {
@@ -121,9 +120,9 @@ fun PostsList(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UserPost(
+    modifier: Modifier = Modifier,
     post: Post,
-    onPostClick: (Int) -> Unit,
-    modifier: Modifier = Modifier
+    onPostClick: (Int) -> Unit
 ) {
     Card(
         onClick = { onPostClick(post.id) },
@@ -143,26 +142,26 @@ fun UserPost(
     }
 }
 
-@Preview
-@Composable
-fun UserPostPreview() {
-    UserPost(
-        post = FakeDataClass.fakePost,
-        onPostClick = { }
-    )
-}
-
-@Preview
-@Composable
-fun PostsListPreview() {
-    PostsList(
-        userPosts = FakeDataClass.fakeUserPosts,
-        onPostClick = { }
-    )
-}
-
-@Preview
-@Composable
-fun PostScreenTopBarPreview() {
-    PostScreenTopBar(onBackButtonClick = { })
-}
+//@Preview
+//@Composable
+//fun UserPostPreview() {
+//    UserPost(
+//        post = FakeDataClass.fakePost,
+//        onPostClick = { }
+//    )
+//}
+//
+//@Preview
+//@Composable
+//fun PostsListPreview() {
+//    PostsList(
+//        userPosts = FakeDataClass.fakeUserPosts,
+//        onPostClick = { }
+//    )
+//}
+//
+//@Preview
+//@Composable
+//fun PostScreenTopBarPreview() {
+//    PostScreenTopBar(onBackButtonClick = { })
+//}

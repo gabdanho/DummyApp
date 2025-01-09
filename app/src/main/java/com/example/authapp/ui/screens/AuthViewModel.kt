@@ -1,4 +1,4 @@
-package com.example.authapp.ui.theme.screens
+package com.example.authapp.ui.screens
 
 import android.util.Log
 import androidx.compose.runtime.getValue
@@ -7,20 +7,15 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.example.authapp.AuthApplication
-import com.example.authapp.data.UserRepository
-import com.example.authapp.model.AuthRequest
-import com.example.authapp.model.AuthUiState
-import com.example.authapp.model.CurrentPostUiState
-import com.example.authapp.model.CurrentUserUiState
-import com.example.authapp.model.PostCommentsUiState
-import com.example.authapp.model.SearchPersonsUiState
-import com.example.authapp.model.UserPostsUiState
+import com.example.authapp.network.UserRepository
+import com.example.authapp.ui.model.AuthRequest
+import com.example.authapp.ui.model.AuthUiState
+import com.example.authapp.ui.model.CurrentPostUiState
+import com.example.authapp.ui.model.CurrentUserUiState
+import com.example.authapp.ui.model.PostCommentsUiState
+import com.example.authapp.ui.model.SearchPersonsUiState
+import com.example.authapp.ui.model.UserPostsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

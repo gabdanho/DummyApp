@@ -1,4 +1,4 @@
-package com.example.authapp.model
+package com.example.authapp.ui.model
 
 data class UserPosts(
     val posts: List<Post>

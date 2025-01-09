@@ -1,10 +1,7 @@
-package com.example.authapp.ui.theme.screens
+package com.example.authapp.ui.screens
 
 import android.util.Log
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.lifecycle.ViewModel
-import com.example.authapp.model.AuthRequest
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,6 +15,7 @@ data class AuthorizationUiState(
 )
 
 class AuthorizationViewModel: ViewModel() {
+
     private val _uiState = MutableStateFlow(AuthorizationUiState())
     val uiState: StateFlow<AuthorizationUiState> = _uiState.asStateFlow()
 

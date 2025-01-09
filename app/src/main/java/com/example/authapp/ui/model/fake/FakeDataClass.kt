@@ -1,12 +1,12 @@
-package com.example.authapp.model.fake
+package com.example.authapp.ui.model.fake
 
-import com.example.authapp.model.Comment
-import com.example.authapp.model.Post
-import com.example.authapp.model.PostComments
-import com.example.authapp.model.User
-import com.example.authapp.model.UserList
-import com.example.authapp.model.UserLogin
-import com.example.authapp.model.UserPosts
+import com.example.authapp.ui.model.Comment
+import com.example.authapp.ui.model.Post
+import com.example.authapp.ui.model.PostComments
+import com.example.authapp.ui.model.User
+import com.example.authapp.ui.model.UserList
+import com.example.authapp.ui.model.UserLogin
+import com.example.authapp.ui.model.UserPosts
 
 object FakeDataClass{
     val fakeCurrentUser = User(

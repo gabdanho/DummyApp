@@ -1,13 +1,12 @@
-package com.example.authapp.data
+package com.example.authapp.network
 
-import com.example.authapp.model.AuthRequest
-import com.example.authapp.model.Post
-import com.example.authapp.model.PostComments
-import com.example.authapp.model.UserList
-import com.example.authapp.model.User
-import com.example.authapp.model.UserLogin
-import com.example.authapp.model.UserPosts
-import com.example.authapp.network.UserApiService
+import com.example.authapp.ui.model.AuthRequest
+import com.example.authapp.ui.model.Post
+import com.example.authapp.ui.model.PostComments
+import com.example.authapp.ui.model.UserList
+import com.example.authapp.ui.model.User
+import com.example.authapp.ui.model.UserLogin
+import com.example.authapp.ui.model.UserPosts
 
 interface UserRepository {
     suspend fun authUser(authRequest: AuthRequest): UserLogin

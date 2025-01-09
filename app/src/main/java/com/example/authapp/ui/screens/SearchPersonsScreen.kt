@@ -1,5 +1,6 @@
-package com.example.authapp.ui.theme.screens
+package com.example.authapp.ui.screens
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -29,40 +30,40 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.example.authapp.data.NetworkUserRepository
-import com.example.authapp.model.SearchPersonsUiState
-import com.example.authapp.model.User
-import com.example.authapp.model.fake.FakeDataClass
-import com.example.authapp.network.mock.MockUserApiService
+import com.example.authapp.ui.model.SearchPersonsUiState
+import com.example.authapp.ui.model.User
 
 @Composable
 fun SearchPersonScreen(
+    modifier: Modifier = Modifier,
     authUserId: Int,
-    authViewModel: AuthViewModel,
+    searchPersonsUiState: SearchPersonsUiState,
     onCurrentUserClick: (Int) -> Unit,
+    updateSearchText: (String) -> Unit,
     onBackButtonClick: () -> Unit
 ) {
     Scaffold(
         topBar = {
             SearchAppBar(
-                authViewModel = authViewModel,
-                onBackButtonClick = onBackButtonClick
+                onBackButtonClick = onBackButtonClick,
+                updateSearchText = updateSearchText
             )
-        }
+        },
+        modifier = modifier
     ) { innerPadding ->
         PersonsList(
             authUserId = authUserId,
-            searchPersonsUiState = authViewModel.searchPersonsUiState,
+            searchPersonsUiState = searchPersonsUiState,
             onCurrentUserClick = onCurrentUserClick,
             modifier = Modifier.padding(innerPadding)
         )
     }
 }
 
+@SuppressLint("UnrememberedMutableState")
 @Composable
 fun PersonsList(
     authUserId: Int,
@@ -95,9 +96,9 @@ fun PersonsList(
 
 @Composable
 fun SearchAppBar(
-    authViewModel: AuthViewModel,
+    modifier: Modifier = Modifier,
     onBackButtonClick: () -> Unit,
-    modifier: Modifier = Modifier
+    updateSearchText: (String) -> Unit
 ) {
     var searchText by rememberSaveable { mutableStateOf("") }
 
@@ -120,7 +121,7 @@ fun SearchAppBar(
             value = searchText,
             onValueChange = {
                 searchText = it
-                authViewModel.updateSearchText(searchText)
+                updateSearchText(searchText)
             },
             leadingIcon = {
                 Icon(
@@ -135,9 +136,9 @@ fun SearchAppBar(
 
 @Composable
 fun PersonItem(
+    modifier: Modifier = Modifier,
     user: User,
     onCurrentUserClick: (Int) -> Unit,
-    modifier: Modifier = Modifier
 ) {
     Row(
         modifier = modifier
@@ -166,24 +167,24 @@ fun PersonItem(
     }
 }
 
-@Preview
-@Composable
-fun SearchPersonScreenPreview() {
-    val mockUserRepository = NetworkUserRepository(MockUserApiService())
-    val authViewModel = AuthViewModel(mockUserRepository)
-    SearchPersonScreen(
-        authUserId = -1,
-        authViewModel = authViewModel,
-        onBackButtonClick = { },
-        onCurrentUserClick =  { }
-    )
-}
-
-@Preview
-@Composable
-fun PersonItemPreview() {
-    PersonItem(
-        user = FakeDataClass.fakeCurrentUser,
-        onCurrentUserClick = { }
-    )
-}
+//@Preview
+//@Composable
+//fun SearchPersonScreenPreview() {
+//    val mockUserRepository = NetworkUserRepository(MockUserApiService())
+//    val authViewModel = AuthViewModel(mockUserRepository)
+//    SearchPersonScreen(
+//        authUserId = -1,
+//        authViewModel = authViewModel,
+//        onBackButtonClick = { },
+//        onCurrentUserClick =  { }
+//    )
+//}
+//
+//@Preview
+//@Composable
+//fun PersonItemPreview() {
+//    PersonItem(
+//        user = FakeDataClass.fakeCurrentUser,
+//        onCurrentUserClick = { }
+//    )
+//}
