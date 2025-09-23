@@ -3,7 +3,7 @@ package com.example.authapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.example.authapp.ui.theme.AuthAppTheme
+import com.example.authapp.presentation.theme.AuthAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
