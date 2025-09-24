@@ -1,7 +1,7 @@
 package com.example.authapp.data.repository.impl.remote
 
-import com.example.authapp.data.mapper.toDataLayer
-import com.example.authapp.data.mapper.toDomainLayer
+import com.example.authapp.presentation.mapper.toDataLayer
+import com.example.authapp.presentation.mapper.toDomainLayer
 import com.example.authapp.data.remote.api.UserApiService
 import com.example.authapp.data.remote.model.safeApiCall
 import com.example.authapp.domain.interfaces.repository.UserRepository
