@@ -1,5 +1,7 @@
 package com.example.authapp.data.repository.impl.remote
 
+import com.example.authapp.data.mapper.toDataLayer
+import com.example.authapp.data.mapper.toDomainLayer
 import com.example.authapp.data.remote.api.UserApiService
 import com.example.authapp.data.remote.model.safeApiCall
 import com.example.authapp.domain.interfaces.repository.UserRepository
@@ -14,42 +16,44 @@ import com.example.authapp.domain.model.user.UserPosts
 import javax.inject.Inject
 
 class NetworkUserRepository @Inject constructor(
-    private val userApiService: UserApiService
+    private val userApiService: UserApiService,
 ) : UserRepository {
     override suspend fun authUser(authRequest: AuthRequest): ApiResult<UserLogin> {
         return safeApiCall {
-            userApiService.authUser(authRequest)
+            val mappedAuthRequest = authRequest.toDataLayer()
+
+            userApiService.authUser(mappedAuthRequest).toDomainLayer()
         }
     }
 
     override suspend fun getCurrentUser(id: Int): ApiResult<User> {
         return safeApiCall {
-            userApiService.getUser(id)
+            userApiService.getUser(id).toDomainLayer()
         }
     }
 
     override suspend fun getUserPostsByUserId(id: Int): ApiResult<UserPosts> {
         return safeApiCall {
-            userApiService.getPostsByUserId(id)
+            userApiService.getPostsByUserId(id).toDomainLayer()
         }
     }
 
 
     override suspend fun getCurrentPostById(id: Int): ApiResult<Post> {
         return safeApiCall {
-            userApiService.getPost(id)
+            userApiService.getPost(id).toDomainLayer()
         }
     }
 
     override suspend fun getPersonsBySearchText(searchText: String): ApiResult<UserList> {
         return safeApiCall {
-            userApiService.getPersonsBySearchText(searchText)
+            userApiService.getPersonsBySearchText(searchText).toDomainLayer()
         }
     }
 
     override suspend fun getCommentsByPostId(id: Int): ApiResult<PostComments> {
         return safeApiCall {
-            userApiService.getCommentsByPostId(id)
+            userApiService.getCommentsByPostId(id).toDomainLayer()
         }
     }
 }
