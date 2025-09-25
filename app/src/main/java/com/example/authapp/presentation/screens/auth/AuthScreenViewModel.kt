@@ -58,7 +58,7 @@ class AuthScreenViewModel @Inject constructor(
             val state = _uiState.value
 
             val authRequestDomain = AuthRequest(
-                username = state.usernameValue,
+                username = state.usernameValue.trim(),
                 password = state.passwordValue
             ).toDomainLayer()
 
