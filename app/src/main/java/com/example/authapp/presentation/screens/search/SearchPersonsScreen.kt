@@ -129,7 +129,9 @@ private fun SearchAppBar(
                     contentDescription = "Search Icon"
                 )
             },
-            modifier = Modifier.height(50.dp)
+            modifier = Modifier
+                .height(50.dp)
+                .fillMaxWidth()
         )
     }
 }

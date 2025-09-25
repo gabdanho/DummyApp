@@ -16,6 +16,7 @@
         <activity
             android:name=".presentation.MainActivity"
             android:exported="true"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/Theme.AuthApp">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

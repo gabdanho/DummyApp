@@ -72,7 +72,7 @@ class SearchPersonScreenViewModel @Inject constructor(
     fun onUserClick(userId: Int) {
         viewModelScope.launch {
             navigator.navigate(
-                destination = AppGraph.UserDetailsScreen(id = userId)
+                destination = AppGraph.UserDetailsScreen(id = userId, isAnotherUser = true)
             )
         }
     }

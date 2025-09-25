@@ -19,6 +19,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -26,7 +27,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -64,26 +64,28 @@ fun UserDetailsScreen(
         viewModel.getUser(userId = id)
     }
 
-    when (uiState.loadingState) {
-        is LoadingState.Success -> {
-            UserDetails(
-                currentUser = uiState.user,
-                onBackButtonClick = { viewModel.onBackButtonClick() },
-                onPostsClick = { viewModel.onUserPostsClick(userId = it) },
-                isAnotherUser = isAnotherUser,
-                modifier = modifier.fillMaxWidth(),
-            )
-        }
+    Surface {
+        when (uiState.loadingState) {
+            is LoadingState.Success -> {
+                UserDetails(
+                    currentUser = uiState.user,
+                    onBackButtonClick = { viewModel.onBackButtonClick() },
+                    onPostsClick = { viewModel.onUserPostsClick(userId = it) },
+                    isAnotherUser = isAnotherUser,
+                    modifier = modifier.fillMaxWidth(),
+                )
+            }
 
-        is LoadingState.Loading -> {
-            LoadingScreen()
-        }
+            is LoadingState.Loading -> {
+                LoadingScreen()
+            }
 
-        is LoadingState.Error -> {
-            ErrorScreen()
-        }
+            is LoadingState.Error -> {
+                ErrorScreen()
+            }
 
-        null -> {}
+            null -> {}
+        }
     }
 }
 
@@ -133,7 +135,7 @@ private fun UserDetails(
                 )
             }
         }
-        HorizontalDivider(Modifier, DividerDefaults.Thickness, color = Color.Black)
+        HorizontalDivider(Modifier, DividerDefaults.Thickness, color = MaterialTheme.colorScheme.onBackground)
         LazyColumn {
             items(columnNames) { (columnName, details) ->
                 ColumnData(

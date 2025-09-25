@@ -57,36 +57,36 @@ fun UserPostsScreen(
         viewModel.getUserPosts(userId = id)
     }
 
-    when (uiState.loadingState) {
-        is LoadingState.Success -> {
-            Scaffold(
-                topBar = {
-                    PostScreenTopBar(
-                        onBackButtonClick = { viewModel.onBackButtonClick() },
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .fillMaxWidth()
-                    )
-                },
-                modifier = modifier
-            ) { innerPadding ->
+    Scaffold(
+        topBar = {
+            PostScreenTopBar(
+                onBackButtonClick = { viewModel.onBackButtonClick() },
+                modifier = Modifier
+                    .padding(8.dp)
+                    .fillMaxWidth()
+            )
+        },
+        modifier = modifier
+    ) { innerPadding ->
+        when (uiState.loadingState) {
+            is LoadingState.Success -> {
                 PostsList(
                     userPosts = uiState.posts,
                     onPostClick = { viewModel.onPostClick(postId = it) },
                     modifier = Modifier.padding(innerPadding)
                 )
             }
-        }
 
-        is LoadingState.Loading -> {
-            LoadingScreen()
-        }
+            is LoadingState.Loading -> {
+                LoadingScreen()
+            }
 
-        is LoadingState.Error -> {
-            ErrorScreen()
-        }
+            is LoadingState.Error -> {
+                ErrorScreen()
+            }
 
-        null -> {}
+            null -> {}
+        }
     }
 }
 
@@ -112,7 +112,7 @@ private fun PostScreenTopBar(
         Text(
             text = "Posts",
             style = MaterialTheme.typography.displayMedium,
-            modifier = Modifier.padding(start = 8.dp)
+            modifier = Modifier.padding(horizontal = 8.dp)
         )
     }
 }
