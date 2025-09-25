@@ -1,8 +1,8 @@
 package com.example.authapp.di
 
 import com.example.authapp.data.repository.impl.remote.NetworkUserRepository
-import com.example.authapp.data.repository.impl.remote.UserRepository
 import com.example.authapp.data.remote.api.UserApiService
+import com.example.authapp.domain.interfaces.repository.UserRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
