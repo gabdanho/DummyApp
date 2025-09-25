@@ -27,13 +27,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.authapp.presentation.model.LoadingState
 import com.example.authapp.presentation.model.user.Post
 import com.example.authapp.presentation.model.user.PostComments
 import com.example.authapp.presentation.screens.proccesing.ErrorScreen
 import com.example.authapp.presentation.screens.proccesing.LoadingScreen
+import com.example.authapp.presentation.theme.defaultDimensions
 import com.example.authapp.presentation.utils.showUiMessage
 
 @Composable
@@ -64,7 +64,7 @@ fun SelectedPostScreen(
                 post = uiState.post,
                 postComments = uiState.comments,
                 onBackButtonClick = { viewModel.onBackButtonClick() },
-                modifier = modifier.padding(8.dp)
+                modifier = modifier.padding(defaultDimensions.small)
             )
         }
 
@@ -92,14 +92,14 @@ private fun SelectedPost(
             PostTopBar(
                 postTitle = post.title,
                 onBackButtonClick = onBackButtonClick,
-                modifier = Modifier.padding(start = 8.dp, top = 8.dp)
+                modifier = Modifier.padding(start = defaultDimensions.small, top = defaultDimensions.small)
             )
         }
     ) { innerPadding ->
         Column(modifier = modifier.padding(innerPadding)) {
             PostBody(
                 post = post,
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier.padding(defaultDimensions.small)
             )
             PostComments(postComments = postComments)
         }
@@ -118,9 +118,9 @@ private fun PostTopBar(
     ) {
         OutlinedButton(
             onClick = onBackButtonClick,
-            contentPadding = PaddingValues(0.dp),
+            contentPadding = PaddingValues(defaultDimensions.none),
             modifier = Modifier
-                .size(50.dp)
+                .size(defaultDimensions.searchIconSize)
         ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -131,7 +131,7 @@ private fun PostTopBar(
             text = postTitle,
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(start = 16.dp)
+            modifier = Modifier.padding(start = defaultDimensions.medium)
         )
     }
 }
@@ -144,9 +144,9 @@ private fun PostBody(
     Column(modifier = modifier) {
         Text(
             text = post.body,
-            modifier = Modifier.padding(vertical = 8.dp)
+            modifier = Modifier.padding(vertical = defaultDimensions.small)
         )
-        Row(modifier = Modifier.padding(top = 16.dp)) {
+        Row(modifier = Modifier.padding(top = defaultDimensions.medium)) {
             Text(
                 text = "Tags: ",
                 style = MaterialTheme.typography.labelSmall,
@@ -173,24 +173,24 @@ private fun PostComments(
             item {
                 Column(modifier = Modifier.fillMaxWidth()) {
                     HorizontalDivider(
-                        modifier = Modifier.padding(bottom = 8.dp),
+                        modifier = Modifier.padding(bottom = defaultDimensions.small),
                         thickness = DividerDefaults.Thickness,
                         color = MaterialTheme.colorScheme.onBackground
                     )
                     Text(
                         text = "Comments",
                         style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.padding(bottom = 8.dp)
+                        modifier = Modifier.padding(bottom = defaultDimensions.small)
                     )
                     HorizontalDivider(
-                        modifier = Modifier.padding(bottom = 8.dp),
+                        modifier = Modifier.padding(bottom = defaultDimensions.small),
                         thickness = DividerDefaults.Thickness,
                         color = MaterialTheme.colorScheme.onBackground
                     )
                 }
             }
             items(postComments.comments) { comment ->
-                Column(modifier = Modifier.padding(bottom = 8.dp)) {
+                Column(modifier = Modifier.padding(bottom = defaultDimensions.small)) {
                     Text(
                         text = comment.user.username,
                         fontWeight = FontWeight.Bold

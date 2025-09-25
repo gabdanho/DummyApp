@@ -26,13 +26,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.authapp.presentation.model.LoadingState
 import com.example.authapp.presentation.model.user.Post
 import com.example.authapp.presentation.model.user.UserPosts
 import com.example.authapp.presentation.screens.proccesing.ErrorScreen
 import com.example.authapp.presentation.screens.proccesing.LoadingScreen
+import com.example.authapp.presentation.theme.defaultDimensions
 import com.example.authapp.presentation.utils.showUiMessage
 
 @Composable
@@ -62,7 +62,7 @@ fun UserPostsScreen(
             PostScreenTopBar(
                 onBackButtonClick = { viewModel.onBackButtonClick() },
                 modifier = Modifier
-                    .padding(8.dp)
+                    .padding(defaultDimensions.small)
                     .fillMaxWidth()
             )
         },
@@ -101,8 +101,8 @@ private fun PostScreenTopBar(
     ) {
         OutlinedButton(
             onClick = onBackButtonClick,
-            modifier = Modifier.size(50.dp),
-            contentPadding = PaddingValues(0.dp)
+            modifier = Modifier.size(defaultDimensions.searchIconSize),
+            contentPadding = PaddingValues(defaultDimensions.none)
         ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -112,7 +112,7 @@ private fun PostScreenTopBar(
         Text(
             text = "Posts",
             style = MaterialTheme.typography.displayMedium,
-            modifier = Modifier.padding(horizontal = 8.dp)
+            modifier = Modifier.padding(horizontal = defaultDimensions.small)
         )
     }
 }
@@ -129,7 +129,7 @@ private fun PostsList(
                 UserPost(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(8.dp),
+                        .padding(defaultDimensions.small),
                     post = post,
                     onPostClick = onPostClick
                 )
@@ -155,7 +155,7 @@ private fun UserPost(
         onClick = { onPostClick(post.id) },
         modifier = modifier
     ) {
-        Column(modifier = Modifier.padding(8.dp)) {
+        Column(modifier = Modifier.padding(defaultDimensions.small)) {
             Text(
                 text = post.title,
                 style = MaterialTheme.typography.titleLarge,
@@ -163,7 +163,7 @@ private fun UserPost(
             )
             Text(
                 text = post.body,
-                modifier = Modifier.padding(vertical = 8.dp)
+                modifier = Modifier.padding(vertical = defaultDimensions.small)
             )
         }
     }

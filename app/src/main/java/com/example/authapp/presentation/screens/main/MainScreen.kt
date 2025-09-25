@@ -31,12 +31,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.authapp.R
 import com.example.authapp.presentation.model.user.UserLogin
+import com.example.authapp.presentation.theme.defaultDimensions
 
 @Composable
 fun MainScreen(
@@ -53,10 +53,10 @@ fun MainScreen(
                 userLogin = userLogin,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
+                    .padding(defaultDimensions.medium)
             )
             MainCards(
-                modifier = Modifier.padding(8.dp),
+                modifier = Modifier.padding(defaultDimensions.small),
                 onMyDetailsClick = { viewModel.onMyDetailsClick(userId = userLogin.id) },
                 onMyPostsClick = { viewModel.onMyPostsClick(userId = userLogin.id) },
                 onFoundPersonClick = { viewModel.onFoundPersonClick(authUserId = userLogin.id) }
@@ -68,12 +68,12 @@ fun MainScreen(
         ) {
             FloatingActionButton(
                 onClick = { viewModel.onLogoutClick() },
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier.padding(defaultDimensions.small)
             ) {
                 Icon(
                     painter = painterResource(R.drawable.logout),
                     contentDescription = "Log out",
-                    modifier = Modifier.size(40.dp)
+                    modifier = Modifier.size(defaultDimensions.searchIconSize)
                 )
             }
         }
@@ -97,13 +97,13 @@ private fun UserTopInfo(
             contentDescription = "User Image",
             contentScale = ContentScale.Crop,
             modifier = Modifier
-                .size(100.dp)
+                .size(defaultDimensions.userImageSize)
                 .clip(CircleShape)
-                .border(5.dp, MaterialTheme.colorScheme.primary, CircleShape)
+                .border(defaultDimensions.imageBorder, MaterialTheme.colorScheme.primary, CircleShape)
         )
         Column(
-            modifier = Modifier.padding(start = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            modifier = Modifier.padding(start = defaultDimensions.medium),
+            verticalArrangement = Arrangement.spacedBy(defaultDimensions.small)
         ) {
             Text(
                 text = userLogin.firstName,
@@ -135,23 +135,23 @@ private fun MainCards(
             onCardClick = onMyDetailsClick,
             modifier = Modifier.fillMaxWidth()
         )
-        Row(modifier = Modifier.padding(vertical = 8.dp)) {
+        Row(modifier = Modifier.padding(vertical = defaultDimensions.small)) {
             // Card: My Posts
             CardElement(
                 imageRes = R.drawable.blogging,
                 cardName = "My Posts",
                 textStyle = MaterialTheme.typography.titleSmall,
                 onCardClick = onMyPostsClick,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(defaultDimensions.fullWeight)
             )
-            Spacer(modifier = Modifier.width(8.dp))
+            Spacer(modifier = Modifier.width(defaultDimensions.small))
             // Card: Found Person
             CardElement(
                 imageRes = R.drawable.multiple_users,
                 cardName = "Found Person",
                 textStyle = MaterialTheme.typography.titleSmall,
                 onCardClick = onFoundPersonClick,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(defaultDimensions.fullWeight)
             )
         }
     }
@@ -181,8 +181,8 @@ private fun CardElement(
                 contentDescription = cardName,
                 colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.surface),
                 modifier = Modifier
-                    .padding(8.dp)
-                    .size(80.dp)
+                    .padding(defaultDimensions.small)
+                    .size(defaultDimensions.cardElementImageSize)
             )
             Text(
                 text = cardName.uppercase(),

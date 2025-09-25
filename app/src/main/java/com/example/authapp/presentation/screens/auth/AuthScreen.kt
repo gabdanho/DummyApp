@@ -5,10 +5,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -30,10 +30,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.authapp.R
 import com.example.authapp.presentation.model.LoadingState
+import com.example.authapp.presentation.theme.defaultDimensions
 import com.example.authapp.presentation.utils.showUiMessage
 
 @Composable
@@ -67,15 +67,15 @@ fun AuthScreen(
             if (uiState.loadingState is LoadingState.Error) {
                 ErrorText()
             }
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(defaultDimensions.spacerHeight))
             AuthLogo()
             // Username TextField
             UsernameInput(
                 username = uiState.usernameValue,
                 updateUsername = { viewModel.usernameValueUpdate(value = it) },
                 modifier = Modifier
-                    .width(300.dp)
-                    .padding(bottom = 8.dp)
+                    .fillMaxWidth(defaultDimensions.halfWeight)
+                    .padding(bottom = defaultDimensions.small)
             )
             // Password TextField
             PasswordInput(
@@ -84,14 +84,14 @@ fun AuthScreen(
                 updatePasswordValue = { viewModel.passwordValueUpdate(value = it) },
                 updatePasswordVisible = { viewModel.isPasswordHiddenUpdate() },
                 modifier = Modifier
-                    .width(300.dp)
-                    .padding(bottom = 8.dp)
+                    .fillMaxWidth(defaultDimensions.halfWeight)
+                    .padding(bottom = defaultDimensions.small)
             )
             Button(
                 onClick = { viewModel.login() },
                 modifier = Modifier
-                    .width(300.dp)
-                    .padding(top = 36.dp)
+                    .fillMaxWidth(defaultDimensions.halfWeight)
+                    .padding(top = defaultDimensions.loginButtonTopPadding)
             ) {
                 Text(text = "Login")
             }
@@ -153,7 +153,7 @@ private fun PasswordInput(
                 Icon(
                     painter = painterResource(icon),
                     contentDescription = "Show Password",
-                    modifier = Modifier.size(25.dp)
+                    modifier = Modifier.size(defaultDimensions.eyeIconSize)
                 )
             }
         },

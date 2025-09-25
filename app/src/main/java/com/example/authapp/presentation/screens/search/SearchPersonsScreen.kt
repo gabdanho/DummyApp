@@ -29,12 +29,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.authapp.presentation.model.LoadingState
 import com.example.authapp.presentation.model.user.User
+import com.example.authapp.presentation.theme.defaultDimensions
 import com.example.authapp.presentation.utils.showUiMessage
 
 @Composable
@@ -63,7 +63,7 @@ fun SearchPersonScreen(
                 updateSearchText = { viewModel.onPromptValueChange(value = it) },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(8.dp)
+                    .padding(defaultDimensions.small)
             )
         },
         modifier = modifier
@@ -72,7 +72,7 @@ fun SearchPersonScreen(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(8.dp)
+                    .padding(defaultDimensions.small)
             ) {
                 CircularProgressIndicator(modifier = Modifier.padding(innerPadding))
             }
@@ -80,7 +80,7 @@ fun SearchPersonScreen(
             LazyColumn(
                 modifier = Modifier
                     .padding(innerPadding)
-                    .padding(8.dp)
+                    .padding(defaultDimensions.small)
             ) {
                 items(uiState.users.users) { user ->
                     if (user.id != authUserId) {
@@ -89,7 +89,7 @@ fun SearchPersonScreen(
                             onCurrentUserClick = { viewModel.onUserClick(userId = user.id) },
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(bottom = 8.dp)
+                                .padding(bottom = defaultDimensions.small)
                         )
                     }
                 }
@@ -111,15 +111,15 @@ private fun SearchAppBar(
     ) {
         OutlinedButton(
             onClick = onBackButtonClick,
-            modifier = Modifier.size(50.dp),
-            contentPadding = PaddingValues(0.dp)
+            modifier = Modifier.size(defaultDimensions.searchIconSize),
+            contentPadding = PaddingValues(defaultDimensions.none)
         ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                 contentDescription = "Back Button"
             )
         }
-        Spacer(modifier = Modifier.width(16.dp))
+        Spacer(modifier = Modifier.width(defaultDimensions.medium))
         OutlinedTextField(
             value = searchTextValue,
             onValueChange = { updateSearchText(it) },
@@ -130,7 +130,7 @@ private fun SearchAppBar(
                 )
             },
             modifier = Modifier
-                .height(50.dp)
+                .height(defaultDimensions.searchIconSize)
                 .fillMaxWidth()
         )
     }
@@ -149,9 +149,9 @@ private fun PersonItem(
                 .crossfade(true)
                 .build(),
             contentDescription = "User Image",
-            modifier = Modifier.size(60.dp)
+            modifier = Modifier.size(defaultDimensions.userImageInPersonItem)
         )
-        Column(modifier = Modifier.padding(start = 8.dp)) {
+        Column(modifier = Modifier.padding(start = defaultDimensions.small)) {
             Text(
                 text = user.firstName,
                 style = MaterialTheme.typography.titleLarge

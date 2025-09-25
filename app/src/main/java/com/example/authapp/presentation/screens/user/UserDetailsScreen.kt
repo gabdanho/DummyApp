@@ -12,7 +12,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
@@ -31,7 +31,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -39,6 +38,7 @@ import com.example.authapp.presentation.model.LoadingState
 import com.example.authapp.presentation.model.user.User
 import com.example.authapp.presentation.screens.proccesing.ErrorScreen
 import com.example.authapp.presentation.screens.proccesing.LoadingScreen
+import com.example.authapp.presentation.theme.defaultDimensions
 import com.example.authapp.presentation.utils.showUiMessage
 
 @Composable
@@ -108,7 +108,7 @@ private fun UserDetails(
     Column(modifier = modifier) {
         Row(
             modifier = Modifier
-                .padding(16.dp)
+                .padding(defaultDimensions.medium)
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -119,14 +119,14 @@ private fun UserDetails(
                     .build(),
                 contentDescription = "User Image",
                 contentScale = ContentScale.Crop,
-                modifier = Modifier.size(100.dp)
+                modifier = Modifier.size(defaultDimensions.userImageSize)
             )
-            Column(modifier = Modifier.padding(start = 16.dp)) {
+            Column(modifier = Modifier.padding(start = defaultDimensions.medium)) {
                 Text(
                     text = currentUser.firstName,
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(bottom = 8.dp)
+                    modifier = Modifier.padding(bottom = defaultDimensions.small)
                 )
                 Text(
                     text = currentUser.lastName,
@@ -143,14 +143,14 @@ private fun UserDetails(
                     details = details,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(8.dp)
+                        .padding(defaultDimensions.small)
                 )
             }
         }
         if (isAnotherUser) {
             Row(
                 modifier = Modifier
-                    .padding(start = 8.dp)
+                    .padding(start = defaultDimensions.small)
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
             ) {
@@ -158,7 +158,7 @@ private fun UserDetails(
                     Text(
                         text = "Posts",
                         textAlign = TextAlign.Center,
-                        modifier = Modifier.width(100.dp)
+                        modifier = Modifier.fillMaxWidth(defaultDimensions.postsButtonWidth)
                     )
                 }
             }
@@ -171,10 +171,10 @@ private fun UserDetails(
         FloatingActionButton(
             onClick = onBackButtonClick,
             modifier = Modifier
-                .padding(bottom = 8.dp, start = 8.dp)
+                .padding(bottom = defaultDimensions.small, start = defaultDimensions.small)
         ) {
             Icon(
-                imageVector = Icons.Filled.ArrowBack,
+                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                 contentDescription = "Back"
             )
         }
@@ -193,7 +193,7 @@ private fun ColumnData(
         Text(
             text = columnName,
             fontWeight = FontWeight.Bold,
-            modifier = Modifier.width(120.dp)
+            modifier = Modifier.width(defaultDimensions.columnDataWidth)
         )
         Text(text = details)
     }
