@@ -11,6 +11,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import com.example.authapp.R
 import com.example.authapp.presentation.model.LoadingState
 
 /**
@@ -44,7 +46,7 @@ fun ErrorScreen(
         ) {
             Icon(
                 imageVector = Icons.Filled.Clear,
-                contentDescription = "Error",
+                contentDescription = stringResource(id = R.string.text_error),
                 modifier = modifier.fillMaxSize()
             )
         }

@@ -26,8 +26,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import com.example.authapp.R
 import com.example.authapp.presentation.model.LoadingState
 import com.example.authapp.presentation.model.user.Post
 import com.example.authapp.presentation.model.user.PostComments
@@ -123,7 +125,7 @@ private fun PostTopBar(
         ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = "Back Button"
+                contentDescription = stringResource(id = R.string.content_back_button)
             )
         }
         Text(
@@ -147,13 +149,13 @@ private fun PostBody(
         )
         Row(modifier = Modifier.padding(top = defaultDimensions.medium)) {
             Text(
-                text = "Tags: ",
+                text = stringResource(id = R.string.text_tags),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.outline
             )
             post.tags.forEach {
                 Text(
-                    text = "$it | ",
+                    text = stringResource(id = R.string.text_tag_element, it),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.outline
                 )
@@ -177,7 +179,7 @@ private fun PostComments(
                         color = MaterialTheme.colorScheme.onBackground
                     )
                     Text(
-                        text = "Comments",
+                        text = stringResource(id = R.string.text_comments),
                         style = MaterialTheme.typography.titleMedium,
                         modifier = Modifier.padding(bottom = defaultDimensions.small)
                     )
@@ -203,7 +205,7 @@ private fun PostComments(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            Text("There are no comments yet")
+            Text(stringResource(id = R.string.text_there_are_no_comments_yet))
         }
     }
 }

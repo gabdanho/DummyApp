@@ -1,5 +1,6 @@
 package com.example.authapp.presentation.screens.posts
 
+import com.example.authapp.R
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -25,6 +26,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.authapp.presentation.model.LoadingState
@@ -115,11 +117,11 @@ private fun PostScreenTopBar(
         ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = "Back Button"
+                contentDescription = stringResource(id = R.string.content_back_button)
             )
         }
         Text(
-            text = "Posts",
+            text = stringResource(id = R.string.text_posts),
             style = MaterialTheme.typography.displayMedium,
             modifier = Modifier.padding(horizontal = defaultDimensions.small)
         )
@@ -149,7 +151,7 @@ private fun PostsList(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            Text(text = "There are no posts yet")
+            Text(text = stringResource(id = R.string.text_there_are_no_posts_yet))
         }
     }
 }

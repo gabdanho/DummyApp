@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -84,8 +85,8 @@ fun MainScreen(
                 modifier = Modifier.padding(defaultDimensions.small)
             ) {
                 Icon(
-                    painter = painterResource(R.drawable.logout),
-                    contentDescription = "Log out",
+                    painter = painterResource(id = R.drawable.logout),
+                    contentDescription = stringResource(id = R.string.content_logout),
                     modifier = Modifier.size(defaultDimensions.searchIconSize)
                 )
             }
@@ -107,7 +108,7 @@ private fun UserTopInfo(
                 .data(userLogin.image)
                 .crossfade(true)
                 .build(),
-            contentDescription = "User Image",
+            contentDescription = stringResource(id = R.string.content_user_image),
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .size(defaultDimensions.userImageSize)
@@ -147,7 +148,7 @@ private fun MainCards(
         // Card: My Details
         CardElement(
             imageRes = R.drawable.user,
-            cardName = "My Details",
+            cardName = stringResource(id = R.string.text_my_details),
             textStyle = MaterialTheme.typography.headlineLarge,
             onCardClick = onMyDetailsClick,
             modifier = Modifier.fillMaxWidth()
@@ -156,7 +157,7 @@ private fun MainCards(
             // Card: My Posts
             CardElement(
                 imageRes = R.drawable.blogging,
-                cardName = "My Posts",
+                cardName = stringResource(id = R.string.text_my_posts),
                 textStyle = MaterialTheme.typography.titleSmall,
                 onCardClick = onMyPostsClick,
                 modifier = Modifier.weight(defaultDimensions.fullWeight)
@@ -165,7 +166,7 @@ private fun MainCards(
             // Card: Found Person
             CardElement(
                 imageRes = R.drawable.multiple_users,
-                cardName = "Found Person",
+                cardName = stringResource(id = R.string.text_found_person),
                 textStyle = MaterialTheme.typography.titleSmall,
                 onCardClick = onFoundPersonClick,
                 modifier = Modifier.weight(defaultDimensions.fullWeight)

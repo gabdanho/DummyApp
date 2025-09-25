@@ -8,4 +8,33 @@
     <string name="error_get_users">Не удалось получить данные о пользователях</string>
     <string name="error_get_user">Не удалось получить данные о пользователе</string>
     <string name="error_get_comments">Не удалось получить данные о комментариях</string>
+
+    <string name="content_show_password">Show Password</string>
+    <string name="content_auth_logo">Auth Logo</string>
+    <string name="content_logout">Logout</string>
+    <string name="content_user_image">User Image</string>
+    <string name="content_back_button">Back Button</string>
+    <string name="content_search_icon">Search Icon</string>
+
+    <string name="text_error">Error</string>
+    <string name="text_welcome">Welcome</string>
+    <string name="text_invalid_username_and_or_password">Invalid username and/or password</string>
+    <string name="text_password">Password</string>
+    <string name="text_username">Username</string>
+    <string name="text_login">Login</string>
+    <string name="text_my_details">My Details</string>
+    <string name="text_my_posts">My Posts</string>
+    <string name="text_found_person">Found Person</string>
+    <string name="text_tags">"Tags: "</string>
+    <string name="text_tag_element">"%1$s | "</string>
+    <string name="text_comments">Comments</string>
+    <string name="text_there_are_no_comments_yet">There are no comments yet</string>
+    <string name="text_posts">Posts</string>
+    <string name="text_there_are_no_posts_yet">There are no posts yet</string>
+    <string name="text_birthday">Birthday</string>
+    <string name="text_age">Age</string>
+    <string name="text_gender">Gender</string>
+    <string name="text_university">University</string>
+    <string name="text_department">Department</string>
+
 </resources>

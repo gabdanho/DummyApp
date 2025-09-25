@@ -29,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -103,7 +104,7 @@ fun AuthScreen(
                     .fillMaxWidth(defaultDimensions.loginElementWeight)
                     .padding(top = defaultDimensions.loginButtonTopPadding)
             ) {
-                Text(text = "Login")
+                Text(text = stringResource(id = R.string.text_login))
             }
         }
     }
@@ -114,7 +115,7 @@ fun AuthScreen(
 private fun TopAppBarAuth(modifier: Modifier = Modifier) {
     CenterAlignedTopAppBar(
         title = {
-            Text(text = "Welcome")
+            Text(text = stringResource(id = R.string.text_welcome))
         },
         modifier = modifier
     )
@@ -123,7 +124,7 @@ private fun TopAppBarAuth(modifier: Modifier = Modifier) {
 @Composable
 private fun ErrorText(modifier: Modifier = Modifier) {
     Text(
-        text = "Invalid username and/or password",
+        text = stringResource(id = R.string.text_invalid_username_and_or_password),
         color = MaterialTheme.colorScheme.error,
         modifier = modifier
     )
@@ -132,8 +133,8 @@ private fun ErrorText(modifier: Modifier = Modifier) {
 @Composable
 private fun AuthLogo(modifier: Modifier = Modifier) {
     Image(
-        painter = painterResource(R.drawable.ic_launcher_foreground),
-        contentDescription = "Auth Logo",
+        painter = painterResource(id = R.drawable.ic_launcher_foreground),
+        contentDescription = stringResource(id = R.string.content_auth_logo),
         modifier = modifier
     )
 }
@@ -149,7 +150,7 @@ private fun PasswordInput(
     OutlinedTextField(
         value = passwordValue,
         onValueChange = { updatePasswordValue(it) },
-        placeholder = { Text(text = "Password") },
+        placeholder = { Text(text = stringResource(id = R.string.text_password)) },
         singleLine = true,
         visualTransformation = if (!isPasswordVisible)
             PasswordVisualTransformation()
@@ -161,8 +162,8 @@ private fun PasswordInput(
             else R.drawable.hide_password
             IconButton(onClick = { updatePasswordVisible() }) {
                 Icon(
-                    painter = painterResource(icon),
-                    contentDescription = "Show Password",
+                    painter = painterResource(id = icon),
+                    contentDescription = stringResource(id = R.string.content_show_password),
                     modifier = Modifier.size(defaultDimensions.eyeIconSize)
                 )
             }
@@ -180,7 +181,7 @@ private fun UsernameInput(
     OutlinedTextField(
         value = username,
         onValueChange = { updateUsername(it) },
-        placeholder = { Text(text = "Username") },
+        placeholder = { Text(text = stringResource(id = R.string.text_username)) },
         singleLine = true,
         modifier = modifier
     )

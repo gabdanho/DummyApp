@@ -29,11 +29,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.example.authapp.R
 import com.example.authapp.presentation.model.LoadingState
 import com.example.authapp.presentation.model.user.User
 import com.example.authapp.presentation.components.ErrorScreen
@@ -90,7 +92,10 @@ fun UserDetailsScreen(
 
             is LoadingState.Error -> {
                 uiState.loadingState?.let {
-                    ErrorScreen(onUpdateScreen = { viewModel.getUser(userId = id) }, loadingState = it)
+                    ErrorScreen(
+                        onUpdateScreen = { viewModel.getUser(userId = id) },
+                        loadingState = it
+                    )
                 }
             }
 
@@ -108,11 +113,11 @@ private fun UserDetails(
     modifier: Modifier = Modifier,
 ) {
     val columnNames = listOf(
-        "Birthday" to currentUser.birthDate,
-        "Age" to currentUser.age,
-        "Gender" to currentUser.gender,
-        "University" to currentUser.university,
-        "Department" to currentUser.department,
+        stringResource(id = R.string.text_birthday) to currentUser.birthDate,
+        stringResource(id = R.string.text_age) to currentUser.age,
+        stringResource(id = R.string.text_gender) to currentUser.gender,
+        stringResource(id = R.string.text_university) to currentUser.university,
+        stringResource(id = R.string.text_department) to currentUser.department,
     )
 
     LazyColumn(modifier = modifier) {
@@ -128,7 +133,7 @@ private fun UserDetails(
                         .data(currentUser.image)
                         .crossfade(true)
                         .build(),
-                    contentDescription = "User Image",
+                    contentDescription = stringResource(id = R.string.content_user_image),
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.size(defaultDimensions.userImageSize)
                 )
@@ -146,7 +151,11 @@ private fun UserDetails(
                     )
                 }
             }
-            HorizontalDivider(Modifier, DividerDefaults.Thickness, color = MaterialTheme.colorScheme.onBackground)
+            HorizontalDivider(
+                Modifier,
+                DividerDefaults.Thickness,
+                color = MaterialTheme.colorScheme.onBackground
+            )
         }
         items(columnNames) { (columnName, details) ->
             ColumnData(
@@ -167,7 +176,7 @@ private fun UserDetails(
                 ) {
                     OutlinedButton(onClick = { onPostsClick(currentUser.id) }) {
                         Text(
-                            text = "Posts",
+                            text = stringResource(id = R.string.text_posts),
                             textAlign = TextAlign.Center,
                             modifier = Modifier.fillMaxWidth(defaultDimensions.postsButtonWidth)
                         )
@@ -188,7 +197,7 @@ private fun UserDetails(
         ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = "Back"
+                contentDescription = stringResource(id = R.string.content_back_button)
             )
         }
     }

@@ -1,5 +1,6 @@
 package com.example.authapp.presentation.screens.search
 
+import com.example.authapp.R
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -29,6 +30,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -123,7 +125,7 @@ private fun SearchAppBar(
         ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = "Back Button"
+                contentDescription = stringResource(id = R.string.content_back_button)
             )
         }
         Spacer(modifier = Modifier.width(defaultDimensions.medium))
@@ -133,7 +135,7 @@ private fun SearchAppBar(
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Filled.Search,
-                    contentDescription = "Search Icon"
+                    contentDescription = stringResource(id = R.string.content_search_icon)
                 )
             },
             modifier = Modifier
@@ -155,7 +157,7 @@ private fun PersonItem(
                 .data(user.image)
                 .crossfade(true)
                 .build(),
-            contentDescription = "User Image",
+            contentDescription = stringResource(id = R.string.content_user_image),
             modifier = Modifier.size(defaultDimensions.userImageInPersonItem)
         )
         Column(modifier = Modifier.padding(start = defaultDimensions.small)) {
