@@ -1,75 +1,106 @@
 package com.example.authapp.presentation.screens.post
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.Divider
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.DividerDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import com.example.authapp.presentation.model.LoadingState
+import com.example.authapp.presentation.model.user.Post
+import com.example.authapp.presentation.model.user.PostComments
+import com.example.authapp.presentation.screens.proccesing.ErrorScreen
+import com.example.authapp.presentation.screens.proccesing.LoadingScreen
+import com.example.authapp.presentation.screens.utils.showUiMessage
 
 @Composable
 fun SelectedPostScreen(
     id: Int,
     modifier: Modifier = Modifier,
-    viewModel: SelectedPostScreenViewModel = hiltViewModel<SelectedPostScreenViewModel>()
+    viewModel: SelectedPostScreenViewModel = hiltViewModel<SelectedPostScreenViewModel>(),
 ) {
-    val postComments = if (postCommentsUiState is PostCommentsUiState.Success)
-        postCommentsUiState.postComments.comments
-    else
-        emptyList()
+    val uiState by viewModel.uiState.collectAsState()
+    val context = LocalContext.current
 
-    when(currentPostUiState) {
-        is CurrentPostUiState.Success -> {
-            SelectedPost(
-                modifier = modifier,
-                post = currentPostUiState.post,
-                postComments = postComments,
-                onBackButtonClick = onBackButtonClick
+    LaunchedEffect(uiState.uiMessage) {
+        uiState.uiMessage?.let {
+            context.showUiMessage(
+                uiMessage = it,
+                clearMessage = { viewModel.clearMessage() }
             )
         }
-        is CurrentPostUiState.Error -> {
+    }
+
+    LaunchedEffect(id) {
+        viewModel.getPost(id = id)
+    }
+
+    when (uiState.loadingState) {
+        is LoadingState.Success -> {
+            SelectedPost(
+                post = uiState.post,
+                postComments = uiState.comments,
+                onBackButtonClick = { viewModel.onBackButtonClick() },
+                modifier = modifier.padding(8.dp)
+            )
+        }
+
+        is LoadingState.Error -> {
             ErrorScreen()
         }
-        is CurrentPostUiState.Loading -> {
+
+        is LoadingState.Loading -> {
             LoadingScreen()
         }
+
+        null -> {}
     }
 }
 
 @Composable
-fun SelectedPost(
-    modifier: Modifier = Modifier,
+private fun SelectedPost(
     post: Post,
-    postComments: List<Comment>,
-    onBackButtonClick: () -> Unit
+    postComments: PostComments,
+    onBackButtonClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Scaffold(
         topBar = {
             PostTopBar(
                 postTitle = post.title,
-                onBackButtonClick = onBackButtonClick
+                onBackButtonClick = onBackButtonClick,
+                modifier = Modifier.padding(start = 8.dp, top = 8.dp)
             )
         }
     ) { innerPadding ->
-        Column(modifier = modifier.padding(8.dp)) {
+        Column(modifier = modifier.padding(innerPadding)) {
             PostBody(
-                innerPadding = innerPadding,
-                post = post
+                post = post,
+                modifier = Modifier.padding(8.dp)
             )
             PostComments(postComments = postComments)
         }
@@ -77,14 +108,14 @@ fun SelectedPost(
 }
 
 @Composable
-fun PostTopBar(
-    modifier: Modifier = Modifier,
+private fun PostTopBar(
     postTitle: String,
     onBackButtonClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier.padding(start = 8.dp, top = 8.dp)
+        modifier = modifier
     ) {
         OutlinedButton(
             onClick = onBackButtonClick,
@@ -93,7 +124,7 @@ fun PostTopBar(
                 .size(50.dp)
         ) {
             Icon(
-                imageVector = Icons.Filled.ArrowBack,
+                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                 contentDescription = "Back Button"
             )
         }
@@ -107,16 +138,11 @@ fun PostTopBar(
 }
 
 @Composable
-fun PostBody(
-    modifier: Modifier = Modifier,
+private fun PostBody(
     post: Post,
-    innerPadding: PaddingValues
+    modifier: Modifier = Modifier,
 ) {
-    Column(
-        modifier = modifier
-            .padding(8.dp)
-            .padding(innerPadding)
-    ) {
+    Column(modifier = modifier) {
         Text(
             text = post.body,
             modifier = Modifier.padding(vertical = 8.dp)
@@ -139,20 +165,32 @@ fun PostBody(
 }
 
 @Composable
-fun PostComments(
+private fun PostComments(
+    postComments: PostComments,
     modifier: Modifier = Modifier,
-    postComments: List<Comment>
 ) {
-    Divider(modifier = modifier.padding(vertical = 8.dp), color = Color.Black)
-    Text(
-        text = "Comments",
-        style = MaterialTheme.typography.titleMedium,
-        modifier = Modifier.padding(bottom = 8.dp)
-    )
-    Divider(modifier = Modifier.padding(bottom = 8.dp), color = Color.Black)
-    if (postComments.isNotEmpty()) {
-        LazyColumn {
-            items(postComments) { comment ->
+    if (postComments.comments.isNotEmpty()) {
+        LazyColumn(modifier = modifier) {
+            item {
+                Column(modifier = Modifier.fillMaxWidth()) {
+                    HorizontalDivider(
+                        modifier = Modifier.padding(bottom = 8.dp),
+                        thickness = DividerDefaults.Thickness,
+                        color = Color.Black
+                    )
+                    Text(
+                        text = "Comments",
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier.padding(bottom = 8.dp)
+                    )
+                    HorizontalDivider(
+                        modifier = Modifier.padding(bottom = 8.dp),
+                        thickness = DividerDefaults.Thickness,
+                        color = Color.Black
+                    )
+                }
+            }
+            items(postComments.comments) { comment ->
                 Column(modifier = Modifier.padding(bottom = 8.dp)) {
                     Text(
                         text = comment.user.username,
@@ -162,18 +200,12 @@ fun PostComments(
                 }
             }
         }
-    }
-    else {
-        Text("There are no comments yet")
+    } else {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Text("There are no comments yet")
+        }
     }
 }
-
-//@Preview
-//@Composable
-//fun SelectedPostPreview() {
-//    SelectedPost(
-//        postComments = FakeDataClass.commentsPost.comments,
-//        post = FakeDataClass.fakePost,
-//        onBackButtonClick = { }
-//    )
-//}

@@ -13,26 +13,26 @@ class MainScreenViewModel @Inject constructor(
     private val navigator: Navigator,
 ) : ViewModel() {
 
-    fun onMyDetailsClick() {
+    fun onMyDetailsClick(userId: Int) {
         viewModelScope.launch {
             navigator.navigate(
-                destination = AppGraph.UserDetailsScreen
+                destination = AppGraph.UserDetailsScreen(id = userId)
             )
         }
     }
 
-    fun onMyPostsClick() {
+    fun onMyPostsClick(userId: Int) {
         viewModelScope.launch {
             navigator.navigate(
-                destination = AppGraph.UserPostsScreen
+                destination = AppGraph.UserPostsScreen(id = userId)
             )
         }
     }
 
-    fun onSearchPersonClick() {
+    fun onFoundPersonClick(authUserId: Int) {
         viewModelScope.launch {
             navigator.navigate(
-                destination = AppGraph.SearchPerson
+                destination = AppGraph.SearchPerson(authUserId = authUserId)
             )
         }
     }

@@ -59,7 +59,7 @@ class SearchPersonScreenViewModel @Inject constructor(
                         state.copy(
                             loadingState = LoadingState.Error,
                             uiMessage = UiMessage(
-                                message = StringResNamePresentation.ERROR_GET_USERS,
+                                textResName = StringResNamePresentation.ERROR_GET_USERS,
                                 details = result.message
                             )
                         )

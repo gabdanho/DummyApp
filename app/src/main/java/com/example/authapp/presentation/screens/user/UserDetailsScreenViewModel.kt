@@ -9,6 +9,7 @@ import com.example.authapp.presentation.model.LoadingState
 import com.example.authapp.presentation.model.StringResNamePresentation
 import com.example.authapp.presentation.model.UiMessage
 import com.example.authapp.presentation.navigation.Navigator
+import com.example.authapp.presentation.navigation.model.AppGraph
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -50,13 +51,21 @@ class UserDetailsScreenViewModel @Inject constructor(
                         state.copy(
                             loadingState = LoadingState.Error,
                             uiMessage = UiMessage(
-                                message = StringResNamePresentation.ERROR_GET_USER,
+                                textResName = StringResNamePresentation.ERROR_GET_USER,
                                 details = result.message
                             )
                         )
                     }
                 }
             }
+        }
+    }
+
+    fun onUserPostsClick(userId: Int) {
+        viewModelScope.launch {
+            navigator.navigate(
+                destination = AppGraph.UserPostsScreen(id = userId)
+            )
         }
     }
 

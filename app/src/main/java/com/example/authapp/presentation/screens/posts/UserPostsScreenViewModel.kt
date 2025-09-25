@@ -8,7 +8,6 @@ import com.example.authapp.presentation.mapper.toPresentationLayer
 import com.example.authapp.presentation.model.LoadingState
 import com.example.authapp.presentation.model.StringResNamePresentation
 import com.example.authapp.presentation.model.UiMessage
-import com.example.authapp.presentation.model.user.Post
 import com.example.authapp.presentation.navigation.Navigator
 import com.example.authapp.presentation.navigation.model.AppGraph
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -52,7 +51,7 @@ class UserPostsScreenViewModel @Inject constructor(
                         state.copy(
                             loadingState = LoadingState.Error,
                             uiMessage = UiMessage(
-                                message = StringResNamePresentation.ERROR_GET_USER_POSTS,
+                                textResName = StringResNamePresentation.ERROR_GET_USER_POSTS,
                                 details = result.message
                             )
                         )
@@ -62,10 +61,10 @@ class UserPostsScreenViewModel @Inject constructor(
         }
     }
 
-    fun onPostClick(post: Post) {
+    fun onPostClick(postId: Int) {
         viewModelScope.launch {
             navigator.navigate(
-                destination = AppGraph.PostScreen(id = post.id)
+                destination = AppGraph.PostScreen(id = postId)
             )
         }
     }

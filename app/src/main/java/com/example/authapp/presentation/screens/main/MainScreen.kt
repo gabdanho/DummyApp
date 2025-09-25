@@ -3,6 +3,7 @@ package com.example.authapp.presentation.screens.main
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,7 +15,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -35,64 +35,57 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.authapp.R
-import com.example.authapp.domain.model.user.UserLogin
+import com.example.authapp.presentation.model.user.UserLogin
 
 @Composable
 fun MainScreen(
+    userLogin: UserLogin,
     modifier: Modifier = Modifier,
     viewModel: MainScreenViewModel = hiltViewModel<MainScreenViewModel>(),
 ) {
-    when(authUiState) {
-        is AuthUiState.Success -> {
-            Scaffold(modifier = modifier) { innerPadding ->
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.padding(innerPadding)
-                ) {
-                    UserTopInfo(userLogin = authUiState.user)
-                    CardsMain(
-                        modifier = Modifier.padding(8.dp),
-                        onMyDetailsClick = onMyDetailsClick,
-                        onMyPostsClick = onMyPostsClick,
-                        onFoundPersonClick = onFoundPersonClick
-                    )
-                }
-                Box(
-                    contentAlignment = Alignment.BottomStart,
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    FloatingActionButton(
-                        onClick = onLogoutClick,
-                        modifier = Modifier.padding(8.dp)
-                    ) {
-                        Icon(
-                            painter = painterResource(R.drawable.logout),
-                            contentDescription = "Log out",
-                            modifier = Modifier.size(40.dp)
-                        )
-                    }
-                }
-
+    Scaffold(modifier = modifier) { innerPadding ->
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.padding(innerPadding)
+        ) {
+            UserTopInfo(
+                userLogin = userLogin,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            )
+            MainCards(
+                modifier = Modifier.padding(8.dp),
+                onMyDetailsClick = { viewModel.onMyDetailsClick(userId = userLogin.id) },
+                onMyPostsClick = { viewModel.onMyPostsClick(userId = userLogin.id) },
+                onFoundPersonClick = { viewModel.onFoundPersonClick(authUserId = userLogin.id) }
+            )
+        }
+        Box(
+            contentAlignment = Alignment.BottomStart,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            FloatingActionButton(
+                onClick = { viewModel.onLogoutClick() },
+                modifier = Modifier.padding(8.dp)
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.logout),
+                    contentDescription = "Log out",
+                    modifier = Modifier.size(40.dp)
+                )
             }
-        }
-        is AuthUiState.Error -> {
-            ErrorScreen()
-        }
-        is AuthUiState.Loading -> {
-            LoadingScreen()
         }
     }
 }
 
 @Composable
-fun UserTopInfo(
+private fun UserTopInfo(
+    userLogin: UserLogin,
     modifier: Modifier = Modifier,
-    userLogin: UserLogin
 ) {
     Row(
-        modifier = modifier
-            .padding(16.dp)
-            .fillMaxWidth(),
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
         AsyncImage(
@@ -107,33 +100,35 @@ fun UserTopInfo(
                 .clip(CircleShape)
                 .border(5.dp, MaterialTheme.colorScheme.primary, CircleShape)
         )
-        Column(modifier = Modifier.padding(start = 16.dp)) {
+        Column(
+            modifier = Modifier.padding(start = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
             Text(
                 text = userLogin.firstName,
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(bottom = 8.dp)
             )
             Text(
                 text = userLogin.lastName,
-                fontWeight = FontWeight.Bold,
                 style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold,
             )
         }
     }
 }
 
 @Composable
-fun CardsMain(
-    modifier: Modifier = Modifier,
+private fun MainCards(
     onMyDetailsClick: () -> Unit,
     onMyPostsClick: () -> Unit,
-    onFoundPersonClick: () -> Unit
+    onFoundPersonClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
         // Card: My Details
-        createCard(
-            imagerRes = R.drawable.user,
+        CardElement(
+            imageRes = R.drawable.user,
             cardName = "My Details",
             textStyle = MaterialTheme.typography.headlineLarge,
             onCardClick = onMyDetailsClick,
@@ -141,8 +136,8 @@ fun CardsMain(
         )
         Row(modifier = Modifier.padding(vertical = 8.dp)) {
             // Card: My Posts
-            createCard(
-                imagerRes = R.drawable.blogging,
+            CardElement(
+                imageRes = R.drawable.blogging,
                 cardName = "My Posts",
                 textStyle = MaterialTheme.typography.titleSmall,
                 onCardClick = onMyPostsClick,
@@ -150,8 +145,8 @@ fun CardsMain(
             )
             Spacer(modifier = Modifier.width(8.dp))
             // Card: Found Person
-            createCard(
-                imagerRes = R.drawable.multiple_users,
+            CardElement(
+                imageRes = R.drawable.multiple_users,
                 cardName = "Found Person",
                 textStyle = MaterialTheme.typography.titleSmall,
                 onCardClick = onFoundPersonClick,
@@ -161,14 +156,13 @@ fun CardsMain(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun createCard(
-    modifier: Modifier = Modifier,
-    @DrawableRes imagerRes: Int,
+private fun CardElement(
+    @DrawableRes imageRes: Int,
     cardName: String,
     textStyle: TextStyle,
-    onCardClick: () -> Unit
+    onCardClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Card(
         content = {
@@ -176,7 +170,7 @@ fun createCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    painter = painterResource(imagerRes),
+                    painter = painterResource(imageRes),
                     contentDescription = cardName,
                     modifier = Modifier
                         .padding(8.dp)
@@ -194,15 +188,3 @@ fun createCard(
         modifier = modifier
     )
 }
-
-//@Preview
-//@Composable
-//fun MainScreenPreview() {
-//    MainScreen(
-//        authUiState = AuthUiState.Success(FakeDataClass.fakeUserLogin),
-//        onLogoutClick = { },
-//        onMyDetailsClick = { },
-//        onMyPostsClick = { },
-//        onFoundPersonClick = { }
-//    )
-//}

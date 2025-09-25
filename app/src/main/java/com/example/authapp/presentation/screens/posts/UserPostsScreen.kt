@@ -9,21 +9,31 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import com.example.authapp.presentation.model.LoadingState
+import com.example.authapp.presentation.model.user.Post
+import com.example.authapp.presentation.model.user.UserPosts
+import com.example.authapp.presentation.screens.proccesing.ErrorScreen
+import com.example.authapp.presentation.screens.proccesing.LoadingScreen
+import com.example.authapp.presentation.screens.utils.showUiMessage
 
 @Composable
 fun UserPostsScreen(
@@ -31,40 +41,63 @@ fun UserPostsScreen(
     modifier: Modifier = Modifier,
     viewModel: UserPostsScreenViewModel = hiltViewModel<UserPostsScreenViewModel>(),
 ) {
-    when(userPostsUiState) {
-        is UserPostsUiState.Success -> {
+    val uiState by viewModel.uiState.collectAsState()
+    val context = LocalContext.current
+
+    LaunchedEffect(uiState.uiMessage) {
+        uiState.uiMessage?.let {
+            context.showUiMessage(
+                uiMessage = it,
+                clearMessage = { viewModel.clearMessage() }
+            )
+        }
+    }
+
+    LaunchedEffect(id) {
+        viewModel.getUserPosts(userId = id)
+    }
+
+    when (uiState.loadingState) {
+        is LoadingState.Success -> {
             Scaffold(
                 topBar = {
-                    PostScreenTopBar(onBackButtonClick = onBackButtonClick)
+                    PostScreenTopBar(
+                        onBackButtonClick = { viewModel.onBackButtonClick() },
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .fillMaxWidth()
+                    )
                 },
                 modifier = modifier
             ) { innerPadding ->
                 PostsList(
-                    userPosts = userPostsUiState.userPosts,
-                    onPostClick = onPostClick,
+                    userPosts = uiState.posts,
+                    onPostClick = { viewModel.onPostClick(postId = it) },
                     modifier = Modifier.padding(innerPadding)
                 )
             }
         }
-        is UserPostsUiState.Loading -> {
+
+        is LoadingState.Loading -> {
             LoadingScreen()
         }
-        is UserPostsUiState.Error -> {
+
+        is LoadingState.Error -> {
             ErrorScreen()
         }
+
+        null -> {}
     }
 }
 
 @Composable
-fun PostScreenTopBar(
+private fun PostScreenTopBar(
     modifier: Modifier = Modifier,
-    onBackButtonClick: () -> Unit
+    onBackButtonClick: () -> Unit,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
-            .padding(8.dp)
-            .fillMaxWidth()
     ) {
         OutlinedButton(
             onClick = onBackButtonClick,
@@ -72,7 +105,7 @@ fun PostScreenTopBar(
             contentPadding = PaddingValues(0.dp)
         ) {
             Icon(
-                imageVector = Icons.Filled.ArrowBack,
+                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                 contentDescription = "Back Button"
             )
         }
@@ -85,23 +118,24 @@ fun PostScreenTopBar(
 }
 
 @Composable
-fun PostsList(
-    modifier: Modifier = Modifier,
+private fun PostsList(
     userPosts: UserPosts,
-    onPostClick: (Int) -> Unit
+    onPostClick: (Int) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     if (userPosts.posts.isNotEmpty()) {
         LazyColumn(modifier = modifier) {
             items(userPosts.posts) { post ->
                 UserPost(
-                    modifier = Modifier.padding(8.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp),
                     post = post,
                     onPostClick = onPostClick
                 )
             }
         }
-    }
-    else {
+    } else {
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
@@ -111,16 +145,15 @@ fun PostsList(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UserPost(
-    modifier: Modifier = Modifier,
+private fun UserPost(
     post: Post,
-    onPostClick: (Int) -> Unit
+    onPostClick: (Int) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Card(
         onClick = { onPostClick(post.id) },
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier
     ) {
         Column(modifier = Modifier.padding(8.dp)) {
             Text(
@@ -135,27 +168,3 @@ fun UserPost(
         }
     }
 }
-
-//@Preview
-//@Composable
-//fun UserPostPreview() {
-//    UserPost(
-//        post = FakeDataClass.fakePost,
-//        onPostClick = { }
-//    )
-//}
-//
-//@Preview
-//@Composable
-//fun PostsListPreview() {
-//    PostsList(
-//        userPosts = FakeDataClass.fakeUserPosts,
-//        onPostClick = { }
-//    )
-//}
-//
-//@Preview
-//@Composable
-//fun PostScreenTopBarPreview() {
-//    PostScreenTopBar(onBackButtonClick = { })
-//}

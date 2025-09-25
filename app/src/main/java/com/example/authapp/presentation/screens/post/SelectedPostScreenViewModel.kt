@@ -35,14 +35,38 @@ class SelectedPostScreenViewModel @Inject constructor(
     fun getPost(id: Int) {
         viewModelScope.launch {
             _uiState.update { state -> state.copy(loadingState = LoadingState.Loading) }
-            when (val result = userRepository.getCurrentPostById(id = id)) {
+            when (val postResult = userRepository.getCurrentPostById(id = id)) {
                 is ApiResult.Success -> {
                     _uiState.update { state ->
                         state.copy(
                             loadingState = LoadingState.Success,
-                            post = result.data.toPresentationLayer()
+                            post = postResult.data.toPresentationLayer()
                         )
                     }
+
+                    when (val commentsResult = userRepository.getCommentsByPostId(id = id)) {
+                        is ApiResult.Success -> {
+                            _uiState.update { state ->
+                                state.copy(
+                                    loadingState = LoadingState.Success,
+                                    comments = commentsResult.data.toPresentationLayer()
+                                )
+                            }
+                        }
+
+                        is ApiResult.Error -> {
+                            _uiState.update { state ->
+                                state.copy(
+                                    loadingState = LoadingState.Error,
+                                    uiMessage = UiMessage(
+                                        textResName = StringResNamePresentation.ERROR_GET_COMMENTS,
+                                        details = commentsResult.message
+                                    )
+                                )
+                            }
+                        }
+                    }
+
                 }
 
                 is ApiResult.Error -> {
@@ -50,8 +74,8 @@ class SelectedPostScreenViewModel @Inject constructor(
                         state.copy(
                             loadingState = LoadingState.Error,
                             uiMessage = UiMessage(
-                                message = StringResNamePresentation.ERROR_GET_POST,
-                                details = result.message
+                                textResName = StringResNamePresentation.ERROR_GET_POST,
+                                details = postResult.message
                             )
                         )
                     }

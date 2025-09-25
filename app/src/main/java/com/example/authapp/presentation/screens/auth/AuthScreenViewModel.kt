@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.authapp.domain.interfaces.repository.UserRepository
 import com.example.authapp.domain.model.ApiResult
 import com.example.authapp.presentation.mapper.toDomainLayer
+import com.example.authapp.presentation.mapper.toPresentationLayer
 import com.example.authapp.presentation.model.LoadingState
 import com.example.authapp.presentation.model.StringResNamePresentation
 import com.example.authapp.presentation.model.UiMessage
@@ -36,13 +37,13 @@ class AuthScreenViewModel @Inject constructor(
         _uiState.update { state -> state.copy(passwordValue = value) }
     }
 
-    fun isPasswordHiddenUpdate(isHidden: Boolean) {
-        _uiState.update { state -> state.copy(isPasswordHidden = isHidden) }
+    fun isPasswordHiddenUpdate() {
+        _uiState.update { state -> state.copy(isPasswordHidden = !state.isPasswordHidden) }
     }
 
     fun login() {
         if (!isAllFieldFilled()) {
-            _uiState.update { state -> state.copy(uiMessage = UiMessage(message = StringResNamePresentation.ERROR_ALL_FIELDS_NOT_FILLED)) }
+            _uiState.update { state -> state.copy(uiMessage = UiMessage(textResName = StringResNamePresentation.ERROR_ALL_FIELDS_NOT_FILLED)) }
             return
         }
 
@@ -58,7 +59,7 @@ class AuthScreenViewModel @Inject constructor(
             when (val result = userRepository.authUser(authRequest = authRequestDomain)) {
                 is ApiResult.Success -> {
                     navigator.navigate(
-                        destination = AppGraph.MainScreen,
+                        destination = AppGraph.MainScreen(userLogin = result.data.toPresentationLayer()),
                         navOptions = { popUpTo(0) { inclusive } }
                     )
                 }
@@ -67,7 +68,7 @@ class AuthScreenViewModel @Inject constructor(
                     _uiState.update { state ->
                         state.copy(
                             uiMessage = UiMessage(
-                                message = StringResNamePresentation.ERROR_AUTH,
+                                textResName = StringResNamePresentation.ERROR_AUTH,
                                 details = result.message
                             ),
                             loadingState = LoadingState.Error
