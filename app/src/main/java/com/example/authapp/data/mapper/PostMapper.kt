@@ -3,6 +3,9 @@ package com.example.authapp.data.mapper
 import com.example.authapp.data.remote.model.user.Post
 import com.example.authapp.domain.model.user.Post as PostDomain
 
+/**
+ * Преобразует [PostDomain] в [Post].
+ */
 fun PostDomain.toDataLayer(): Post {
     return Post(
         id = id,
@@ -13,6 +16,9 @@ fun PostDomain.toDataLayer(): Post {
     )
 }
 
+/**
+ * Преобразует [Post] в [PostDomain].
+ */
 fun Post.toDomainLayer(): PostDomain {
     return PostDomain(
         id = id,

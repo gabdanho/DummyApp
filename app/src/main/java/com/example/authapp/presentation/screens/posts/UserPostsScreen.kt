@@ -35,6 +35,13 @@ import com.example.authapp.presentation.components.LoadingScreen
 import com.example.authapp.presentation.theme.defaultDimensions
 import com.example.authapp.presentation.utils.showUiMessage
 
+/**
+ * Экран постов пользователя.
+ *
+ * @param id идентификатор пользователя
+ * @param modifier модификатор компоновки
+ * @param viewModel [UserPostsScreenViewModel] для управления состоянием
+ */
 @Composable
 fun UserPostsScreen(
     id: Int,

@@ -41,6 +41,14 @@ import com.example.authapp.presentation.components.LoadingScreen
 import com.example.authapp.presentation.theme.defaultDimensions
 import com.example.authapp.presentation.utils.showUiMessage
 
+/**
+ * Экран деталей пользователя.
+ *
+ * @param id идентификатор пользователя
+ * @param modifier модификатор компоновки
+ * @param isAnotherUser признак чужого профиля
+ * @param viewModel [UserDetailsScreenViewModel] для управления состоянием
+ */
 @Composable
 fun UserDetailsScreen(
     id: Int,

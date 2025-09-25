@@ -2,6 +2,18 @@ package com.example.authapp.presentation.model.user
 
 import kotlinx.serialization.Serializable
 
+/**
+ * Результат авторизации пользователя.
+ *
+ * @property id идентификатор.
+ * @property username логин.
+ * @property email почта.
+ * @property firstName имя.
+ * @property lastName фамилия.
+ * @property gender пол.
+ * @property image аватар.
+ * @property token JWT-токен.
+ */
 @Serializable
 data class UserLogin(
     val id: Int = 0,

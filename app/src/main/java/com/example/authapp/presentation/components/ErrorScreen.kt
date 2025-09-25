@@ -13,6 +13,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.example.authapp.presentation.model.LoadingState
 
+/**
+ * Экран ошибки.
+ *
+ * Отображает сообщение об ошибке в зависимости от состояния [LoadingState]
+ * и предоставляет кнопку для обновления экрана.
+ *
+ * @param loadingState состояние загрузки [LoadingState].
+ * @param onUpdateScreen колбэк, вызываемый при повторной попытке обновления.
+ * @param modifier [Modifier] для настройки внешнего вида.
+ */
 @Composable
 fun ErrorScreen(
     loadingState: LoadingState,

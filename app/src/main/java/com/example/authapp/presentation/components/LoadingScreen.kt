@@ -24,16 +24,27 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
+import com.example.authapp.presentation.theme.defaultDimensions
 import kotlinx.coroutines.delay
 
+/**
+ * Экран загрузки.
+ *
+ * Отображает анимированные круги-индикаторы загрузки.
+ *
+ * @param modifier [Modifier] для настройки внешнего вида.
+ * @param circleSize размер окружностей-индикаторов.
+ * @param circleColor цвет окружностей-индикаторов.
+ * @param spaceBetween расстояние между окружностями.
+ * @param travelDistance амплитуда движения окружностей.
+ */
 @Composable
 fun LoadingScreen(
     modifier: Modifier = Modifier,
-    circleSize: Dp = 25.dp,
+    circleSize: Dp = defaultDimensions.loadingCircleSize,
     circleColor: Color = MaterialTheme.colorScheme.primary,
-    spaceBetween: Dp = 10.dp,
-    travelDistance: Dp = 20.dp
+    spaceBetween: Dp = defaultDimensions.circlesPaddingBetween,
+    travelDistance: Dp = defaultDimensions.travelDistance,
 ) {
     val circles = listOf(
         remember { Animatable(initialValue = 0f) },

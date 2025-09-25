@@ -18,6 +18,12 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * ViewModel для [SearchPersonScreen].
+ *
+ * @param navigator навигация между экранами
+ * @param userRepository репозиторий пользователей
+ */
 @HiltViewModel
 class SearchPersonScreenViewModel @Inject constructor(
     private val navigator: Navigator,

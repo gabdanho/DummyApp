@@ -3,6 +3,9 @@ package com.example.authapp.presentation.mapper
 import com.example.authapp.presentation.model.user.AuthRequest
 import com.example.authapp.domain.model.user.AuthRequest as AuthRequestDomain
 
+/**
+ * Преобразует [AuthRequestDomain] в [AuthRequest].
+ */
 fun AuthRequestDomain.toPresentationLayer(): AuthRequest {
     return AuthRequest(
         username = username,
@@ -10,6 +13,9 @@ fun AuthRequestDomain.toPresentationLayer(): AuthRequest {
     )
 }
 
+/**
+ * Преобразует [AuthRequest] в [AuthRequestDomain].
+ */
 fun AuthRequest.toDomainLayer(): AuthRequestDomain {
     return AuthRequestDomain(
         username = username,

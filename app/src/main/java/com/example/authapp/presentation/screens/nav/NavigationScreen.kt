@@ -1,14 +1,19 @@
-package com.example.authapp.presentation.nav
+package com.example.authapp.presentation.screens.nav
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.example.authapp.presentation.navigation.NavigationAction
 import com.example.authapp.presentation.navigation.ObserveAsEvents
 import com.example.authapp.presentation.navigation.appGraph
 
+/**
+ * Корневой экран навигации приложения.
+ *
+ * @param viewModel [NavigationScreenViewModel].
+ */
 @Composable
 fun NavigationScreen(
     viewModel: NavigationScreenViewModel = hiltViewModel<NavigationScreenViewModel>(),

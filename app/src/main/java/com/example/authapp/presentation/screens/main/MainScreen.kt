@@ -40,6 +40,13 @@ import com.example.authapp.R
 import com.example.authapp.presentation.model.user.UserLogin
 import com.example.authapp.presentation.theme.defaultDimensions
 
+/**
+ * Главный экран приложения.
+ *
+ * @param userLogin авторизованный пользователь
+ * @param modifier модификатор компоновки
+ * @param viewModel [MainScreenViewModel] для управления состоянием
+ */
 @Composable
 fun MainScreen(
     userLogin: UserLogin,

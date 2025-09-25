@@ -37,6 +37,13 @@ import com.example.authapp.presentation.model.user.User
 import com.example.authapp.presentation.theme.defaultDimensions
 import com.example.authapp.presentation.utils.showUiMessage
 
+/**
+ * Экран поиска пользователей.
+ *
+ * @param authUserId идентификатор авторизованного пользователя
+ * @param modifier модификатор компоновки
+ * @param viewModel [SearchPersonScreenViewModel] для управления состоянием
+ */
 @Composable
 fun SearchPersonScreen(
     authUserId: Int,

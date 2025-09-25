@@ -8,6 +8,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * ViewModel для [MainScreen].
+ *
+ * @param navigator навигация между экранами
+ */
 @HiltViewModel
 class MainScreenViewModel @Inject constructor(
     private val navigator: Navigator,

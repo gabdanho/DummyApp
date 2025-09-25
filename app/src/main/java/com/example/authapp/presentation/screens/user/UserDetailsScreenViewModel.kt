@@ -18,6 +18,12 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * ViewModel для [UserDetailsScreen].
+ *
+ * @param navigator навигация между экранами
+ * @param userRepository репозиторий пользователей
+ */
 @HiltViewModel
 class UserDetailsScreenViewModel @Inject constructor(
     private val navigator: Navigator,

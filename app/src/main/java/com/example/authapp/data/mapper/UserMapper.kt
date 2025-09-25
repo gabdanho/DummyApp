@@ -3,6 +3,9 @@ package com.example.authapp.data.mapper
 import com.example.authapp.data.remote.model.user.User
 import com.example.authapp.domain.model.user.User as UserDomain
 
+/**
+ * Преобразует [UserDomain] в [User].
+ */
 fun UserDomain.toDataLayer(): User {
     return User(
         id = id,
@@ -18,6 +21,9 @@ fun UserDomain.toDataLayer(): User {
     )
 }
 
+/**
+ * Преобразует [User] в [UserDomain].
+ */
 fun User.toDomainLayer(): UserDomain {
     return UserDomain(
         id = id,

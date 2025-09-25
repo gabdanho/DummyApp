@@ -17,6 +17,12 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * ViewModel для [SelectedPostScreen].
+ *
+ * @param navigator навигация между экранами
+ * @param userRepository репозиторий пользователей
+ */
 @HiltViewModel
 class SelectedPostScreenViewModel @Inject constructor(
     private val navigator: Navigator,

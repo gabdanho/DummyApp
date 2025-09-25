@@ -3,6 +3,9 @@ package com.example.authapp.presentation.theme
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
+/**
+ * [Dimensions], [Float] компонентов приложения.
+ */
 data class Dimensions(
     val none: Dp,
     val small: Dp,
@@ -19,7 +22,10 @@ data class Dimensions(
     val spacerHeight: Dp,
     val loginButtonTopPadding: Dp,
     val eyeIconSize: Dp,
-    )
+    val loadingCircleSize: Dp,
+    val circlesPaddingBetween: Dp,
+    val travelDistance: Dp,
+)
 
 val defaultDimensions = Dimensions(
     none = 0.dp,
@@ -37,4 +43,7 @@ val defaultDimensions = Dimensions(
     spacerHeight = 24.dp,
     loginButtonTopPadding = 36.dp,
     eyeIconSize = 25.dp,
+    loadingCircleSize = 25.dp,
+    circlesPaddingBetween = 10.dp,
+    travelDistance = 20.dp,
 )

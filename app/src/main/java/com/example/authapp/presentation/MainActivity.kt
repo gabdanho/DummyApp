@@ -7,10 +7,15 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.Modifier
-import com.example.authapp.presentation.nav.NavigationScreen
+import com.example.authapp.presentation.screens.nav.NavigationScreen
 import com.example.authapp.presentation.theme.AuthAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
+/**
+ * Главная активность приложения.
+ *
+ * Использует [AuthAppTheme] для применения цветовой схемы и стилей.
+ */
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

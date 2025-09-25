@@ -3,6 +3,9 @@ package com.example.authapp.data.mapper
 import com.example.authapp.data.remote.model.user.UserLogin
 import com.example.authapp.domain.model.user.UserLogin as UserLoginDomain
 
+/**
+ * Преобразует [UserLoginDomain] в [UserLogin].
+ */
 fun UserLoginDomain.toDataLayer(): UserLogin {
     return UserLogin(
         id = id,
@@ -16,6 +19,9 @@ fun UserLoginDomain.toDataLayer(): UserLogin {
     )
 }
 
+/**
+ * Преобразует [UserLogin] в [UserLoginDomain].
+ */
 fun UserLogin.toDomainLayer(): UserLoginDomain {
     return UserLoginDomain(
         id = id,

@@ -38,6 +38,12 @@ import com.example.authapp.presentation.model.LoadingState
 import com.example.authapp.presentation.theme.defaultDimensions
 import com.example.authapp.presentation.utils.showUiMessage
 
+/**
+ * Экран авторизации.
+ *
+ * @param modifier модификатор компоновки
+ * @param viewModel [AuthScreenViewModel] для управления состоянием
+ */
 @Composable
 fun AuthScreen(
     modifier: Modifier = Modifier,
