@@ -39,7 +39,7 @@ import com.example.authapp.presentation.model.LoadingState
 import com.example.authapp.presentation.model.user.User
 import com.example.authapp.presentation.screens.proccesing.ErrorScreen
 import com.example.authapp.presentation.screens.proccesing.LoadingScreen
-import com.example.authapp.presentation.screens.utils.showUiMessage
+import com.example.authapp.presentation.utils.showUiMessage
 
 @Composable
 fun UserDetailsScreen(

@@ -1,9 +1,9 @@
-package com.example.authapp.presentation.screens.utils
+package com.example.authapp.presentation.utils
 
 import android.content.Context
 import android.widget.Toast
 import com.example.authapp.presentation.model.UiMessage
-import com.example.authapp.presentation.screens.constants.TOAST_DURATION
+import com.example.authapp.presentation.constants.TOAST_DURATION
 import com.example.authapp.presentation.mapper.resources.StringToResourceIdMapperImpl
 import kotlinx.coroutines.delay
 

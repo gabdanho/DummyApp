@@ -69,7 +69,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
     // KSP Hilt Compiler
-    ksp("com.google.dagger:hilt-compiler:2.57.1")
+    ksp("com.google.dagger:hilt-compiler:2.53")
     // Retrofit
     implementation("com.squareup.retrofit2:retrofit:3.0.0")
     // Gson
@@ -88,7 +88,7 @@ dependencies {
     // LiveData
     implementation("androidx.compose.runtime:runtime-livedata:1.9.1")
     // Dagger-Hilt
-    implementation("com.google.dagger:hilt-android:2.57.1")
+    implementation("com.google.dagger:hilt-android:2.53")
     implementation("androidx.hilt:hilt-navigation-compose:1.3.0")
     // Json serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")

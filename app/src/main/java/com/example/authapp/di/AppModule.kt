@@ -3,6 +3,9 @@ package com.example.authapp.di
 import com.example.authapp.data.repository.impl.remote.NetworkUserRepository
 import com.example.authapp.data.remote.api.UserApiService
 import com.example.authapp.domain.interfaces.repository.UserRepository
+import com.example.authapp.presentation.navigation.Navigator
+import com.example.authapp.presentation.navigation.NavigatorImpl
+import com.example.authapp.presentation.navigation.model.AppGraph
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,7 +16,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
-const val BASE_URL = "https://dummyjson.com/"
+private const val BASE_URL = "https://dummyjson.com/"
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -21,8 +24,14 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideNavigator(): Navigator {
+        return NavigatorImpl(startDestination = AppGraph.AuthScreen)
+    }
+
+    @Provides
+    @Singleton
     fun provideNetworkUserRepository(api: UserApiService): UserRepository {
-        return NetworkUserRepository(api)
+        return NetworkUserRepository(userApiService = api)
     }
 
     @Provides

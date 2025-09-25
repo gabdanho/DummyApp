@@ -13,7 +13,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -35,7 +35,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.authapp.presentation.model.LoadingState
 import com.example.authapp.presentation.model.user.User
-import com.example.authapp.presentation.screens.utils.showUiMessage
+import com.example.authapp.presentation.utils.showUiMessage
 
 @Composable
 fun SearchPersonScreen(
@@ -115,7 +115,7 @@ private fun SearchAppBar(
             contentPadding = PaddingValues(0.dp)
         ) {
             Icon(
-                imageVector = Icons.Filled.ArrowBack,
+                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                 contentDescription = "Back Button"
             )
         }

@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.authapp.R
 import com.example.authapp.presentation.model.LoadingState
-import com.example.authapp.presentation.screens.utils.showUiMessage
+import com.example.authapp.presentation.utils.showUiMessage
 
 @Composable
 fun AuthScreen(

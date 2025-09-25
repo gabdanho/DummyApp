@@ -35,7 +35,7 @@ import com.example.authapp.presentation.model.user.Post
 import com.example.authapp.presentation.model.user.PostComments
 import com.example.authapp.presentation.screens.proccesing.ErrorScreen
 import com.example.authapp.presentation.screens.proccesing.LoadingScreen
-import com.example.authapp.presentation.screens.utils.showUiMessage
+import com.example.authapp.presentation.utils.showUiMessage
 
 @Composable
 fun SelectedPostScreen(
