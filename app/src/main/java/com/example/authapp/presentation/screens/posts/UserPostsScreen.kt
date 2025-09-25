@@ -30,8 +30,8 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.authapp.presentation.model.LoadingState
 import com.example.authapp.presentation.model.user.Post
 import com.example.authapp.presentation.model.user.UserPosts
-import com.example.authapp.presentation.screens.proccesing.ErrorScreen
-import com.example.authapp.presentation.screens.proccesing.LoadingScreen
+import com.example.authapp.presentation.components.ErrorScreen
+import com.example.authapp.presentation.components.LoadingScreen
 import com.example.authapp.presentation.theme.defaultDimensions
 import com.example.authapp.presentation.utils.showUiMessage
 
@@ -82,7 +82,9 @@ fun UserPostsScreen(
             }
 
             is LoadingState.Error -> {
-                ErrorScreen()
+                uiState.loadingState?.let {
+                    ErrorScreen(onUpdateScreen = { viewModel.getUserPosts(userId = id) }, loadingState = it)
+                }
             }
 
             null -> {}

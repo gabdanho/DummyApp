@@ -36,8 +36,8 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.authapp.presentation.model.LoadingState
 import com.example.authapp.presentation.model.user.User
-import com.example.authapp.presentation.screens.proccesing.ErrorScreen
-import com.example.authapp.presentation.screens.proccesing.LoadingScreen
+import com.example.authapp.presentation.components.ErrorScreen
+import com.example.authapp.presentation.components.LoadingScreen
 import com.example.authapp.presentation.theme.defaultDimensions
 import com.example.authapp.presentation.utils.showUiMessage
 
@@ -81,7 +81,9 @@ fun UserDetailsScreen(
             }
 
             is LoadingState.Error -> {
-                ErrorScreen()
+                uiState.loadingState?.let {
+                    ErrorScreen(onUpdateScreen = { viewModel.getUser(userId = id) }, loadingState = it)
+                }
             }
 
             null -> {}
@@ -105,63 +107,66 @@ private fun UserDetails(
         "Department" to currentUser.department,
     )
 
-    Column(modifier = modifier) {
-        Row(
-            modifier = Modifier
-                .padding(defaultDimensions.medium)
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            AsyncImage(
-                model = ImageRequest.Builder(context = LocalContext.current)
-                    .data(currentUser.image)
-                    .crossfade(true)
-                    .build(),
-                contentDescription = "User Image",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.size(defaultDimensions.userImageSize)
-            )
-            Column(modifier = Modifier.padding(start = defaultDimensions.medium)) {
-                Text(
-                    text = currentUser.firstName,
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(bottom = defaultDimensions.small)
-                )
-                Text(
-                    text = currentUser.lastName,
-                    fontWeight = FontWeight.Bold,
-                    style = MaterialTheme.typography.titleLarge
-                )
-            }
-        }
-        HorizontalDivider(Modifier, DividerDefaults.Thickness, color = MaterialTheme.colorScheme.onBackground)
-        LazyColumn {
-            items(columnNames) { (columnName, details) ->
-                ColumnData(
-                    columnName = columnName,
-                    details = details,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(defaultDimensions.small)
-                )
-            }
-        }
-        if (isAnotherUser) {
+    LazyColumn(modifier = modifier) {
+        item {
             Row(
                 modifier = Modifier
-                    .padding(start = defaultDimensions.small)
+                    .padding(defaultDimensions.medium)
                     .fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                OutlinedButton(onClick = { onPostsClick(currentUser.id) }) {
+                AsyncImage(
+                    model = ImageRequest.Builder(context = LocalContext.current)
+                        .data(currentUser.image)
+                        .crossfade(true)
+                        .build(),
+                    contentDescription = "User Image",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.size(defaultDimensions.userImageSize)
+                )
+                Column(modifier = Modifier.padding(start = defaultDimensions.medium)) {
                     Text(
-                        text = "Posts",
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth(defaultDimensions.postsButtonWidth)
+                        text = currentUser.firstName,
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(bottom = defaultDimensions.small)
+                    )
+                    Text(
+                        text = currentUser.lastName,
+                        fontWeight = FontWeight.Bold,
+                        style = MaterialTheme.typography.titleLarge
                     )
                 }
             }
+            HorizontalDivider(Modifier, DividerDefaults.Thickness, color = MaterialTheme.colorScheme.onBackground)
+        }
+        items(columnNames) { (columnName, details) ->
+            ColumnData(
+                columnName = columnName,
+                details = details,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(defaultDimensions.small)
+            )
+        }
+        item {
+            if (isAnotherUser) {
+                Row(
+                    modifier = Modifier
+                        .padding(start = defaultDimensions.small)
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    OutlinedButton(onClick = { onPostsClick(currentUser.id) }) {
+                        Text(
+                            text = "Posts",
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.fillMaxWidth(defaultDimensions.postsButtonWidth)
+                        )
+                    }
+                }
+            }
+
         }
     }
     Box(

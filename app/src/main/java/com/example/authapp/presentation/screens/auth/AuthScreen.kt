@@ -9,7 +9,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -41,6 +43,7 @@ fun AuthScreen(
     modifier: Modifier = Modifier,
     viewModel: AuthScreenViewModel = hiltViewModel<AuthScreenViewModel>(),
 ) {
+    val scrollState = rememberScrollState()
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
 
@@ -63,6 +66,7 @@ fun AuthScreen(
             modifier = modifier
                 .fillMaxSize()
                 .padding(innerPadding)
+                .verticalScroll(scrollState)
         ) {
             if (uiState.loadingState is LoadingState.Error) {
                 ErrorText()
@@ -74,7 +78,7 @@ fun AuthScreen(
                 username = uiState.usernameValue,
                 updateUsername = { viewModel.usernameValueUpdate(value = it) },
                 modifier = Modifier
-                    .fillMaxWidth(defaultDimensions.halfWeight)
+                    .fillMaxWidth(defaultDimensions.loginElementWeight)
                     .padding(bottom = defaultDimensions.small)
             )
             // Password TextField
@@ -84,13 +88,13 @@ fun AuthScreen(
                 updatePasswordValue = { viewModel.passwordValueUpdate(value = it) },
                 updatePasswordVisible = { viewModel.isPasswordHiddenUpdate() },
                 modifier = Modifier
-                    .fillMaxWidth(defaultDimensions.halfWeight)
+                    .fillMaxWidth(defaultDimensions.loginElementWeight)
                     .padding(bottom = defaultDimensions.small)
             )
             Button(
                 onClick = { viewModel.login() },
                 modifier = Modifier
-                    .fillMaxWidth(defaultDimensions.halfWeight)
+                    .fillMaxWidth(defaultDimensions.loginElementWeight)
                     .padding(top = defaultDimensions.loginButtonTopPadding)
             ) {
                 Text(text = "Login")

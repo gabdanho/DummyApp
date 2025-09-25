@@ -1,4 +1,4 @@
-package com.example.authapp.presentation.screens.proccesing
+package com.example.authapp.presentation.components
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearOutSlowInEasing

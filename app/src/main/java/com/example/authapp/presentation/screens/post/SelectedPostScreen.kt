@@ -31,8 +31,8 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.authapp.presentation.model.LoadingState
 import com.example.authapp.presentation.model.user.Post
 import com.example.authapp.presentation.model.user.PostComments
-import com.example.authapp.presentation.screens.proccesing.ErrorScreen
-import com.example.authapp.presentation.screens.proccesing.LoadingScreen
+import com.example.authapp.presentation.components.ErrorScreen
+import com.example.authapp.presentation.components.LoadingScreen
 import com.example.authapp.presentation.theme.defaultDimensions
 import com.example.authapp.presentation.utils.showUiMessage
 
@@ -60,16 +60,34 @@ fun SelectedPostScreen(
 
     when (uiState.loadingState) {
         is LoadingState.Success -> {
-            SelectedPost(
-                post = uiState.post,
-                postComments = uiState.comments,
-                onBackButtonClick = { viewModel.onBackButtonClick() },
-                modifier = modifier.padding(defaultDimensions.small)
-            )
+            Scaffold(
+                topBar = {
+                    PostTopBar(
+                        postTitle = uiState.post.title,
+                        onBackButtonClick = { viewModel.onBackButtonClick() },
+                        modifier = Modifier.padding(
+                            start = defaultDimensions.small,
+                            top = defaultDimensions.small
+                        )
+                    )
+                }
+            ) { innerPadding ->
+                Column(
+                    modifier = modifier.padding(innerPadding)
+                ) {
+                    PostBody(
+                        post = uiState.post,
+                        modifier = Modifier.padding(defaultDimensions.small)
+                    )
+                    PostComments(postComments = uiState.comments)
+                }
+            }
         }
 
         is LoadingState.Error -> {
-            ErrorScreen()
+            uiState.loadingState?.let {
+                ErrorScreen(onUpdateScreen = { viewModel.getPost(id = id) }, loadingState = it)
+            }
         }
 
         is LoadingState.Loading -> {
@@ -77,32 +95,6 @@ fun SelectedPostScreen(
         }
 
         null -> {}
-    }
-}
-
-@Composable
-private fun SelectedPost(
-    post: Post,
-    postComments: PostComments,
-    onBackButtonClick: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    Scaffold(
-        topBar = {
-            PostTopBar(
-                postTitle = post.title,
-                onBackButtonClick = onBackButtonClick,
-                modifier = Modifier.padding(start = defaultDimensions.small, top = defaultDimensions.small)
-            )
-        }
-    ) { innerPadding ->
-        Column(modifier = modifier.padding(innerPadding)) {
-            PostBody(
-                post = post,
-                modifier = Modifier.padding(defaultDimensions.small)
-            )
-            PostComments(postComments = postComments)
-        }
     }
 }
 
