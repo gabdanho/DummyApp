@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">AuthApp</string>
+
+    <string name="error_all_fields_not_filled">Необходимо заполнить все поля</string>
+    <string name="error_auth">Ошибка авторизации</string>
+    <string name="error_get_post">Не удалось получить данные о посте</string>
+    <string name="error_get_user_posts">Не удалось получить данные о постах пользователя</string>
+    <string name="error_get_users">Не удалось получить данные о пользователях</string>
+    <string name="error_get_user">Не удалось получить данные о пользователе</string>
 </resources>
