@@ -16,7 +16,8 @@ class StringToResourceIdMapperImpl : StringToResourceIdMapper {
         StringResNamePresentation.ERROR_ALL_FIELDS_NOT_FILLED to R.string.error_all_fields_not_filled,
         StringResNamePresentation.ERROR_GET_POST to R.string.error_get_post,
         StringResNamePresentation.ERROR_GET_USER_POSTS to R.string.error_get_user_posts,
-        StringResNamePresentation.ERROR_GET_USERS to R.string.error_get_users
+        StringResNamePresentation.ERROR_GET_USERS to R.string.error_get_users,
+        StringResNamePresentation.ERROR_GET_COMMENTS to R.string.error_get_comments
     )
 
     override fun map(resId: StringResNamePresentation): Int {

@@ -10,4 +10,5 @@ enum class StringResNamePresentation {
     ERROR_GET_USER_POSTS,
     ERROR_GET_USERS,
     ERROR_GET_USER,
+    ERROR_GET_COMMENTS,
 }

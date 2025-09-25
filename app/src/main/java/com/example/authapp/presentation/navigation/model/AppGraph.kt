@@ -22,8 +22,8 @@ sealed class AppGraph : NavigationDestination {
     data class UserPostsScreen(val id: Int? = null) : AppGraph()
 
     @Serializable
-    data object SearchPerson : AppGraph()
+    data class SearchPerson(val authUserId: Int? = null) : AppGraph()
 
     @Serializable
-    data class UserDetailsScreen(val id: Int? = null) : AppGraph()
+    data class UserDetailsScreen(val id: Int? = null, val isAnotherUser: Boolean = false) : AppGraph()
 }

@@ -24,41 +24,45 @@ fun NavGraphBuilder.appGraph(
     modifier: Modifier = Modifier,
 ) {
     composable<AppGraph.AuthScreen> {
-        AuthScreen()
+        AuthScreen(modifier = modifier)
     }
 
     composable<AppGraph.MainScreen>(
         typeMap = mapOf(typeOf<UserLogin>() to UserLoginNavType())
     ) {
         val args = it.toRoute<AppGraph.MainScreen>()
-        MainScreen(userLogin = args.userLogin)
+        MainScreen(userLogin = args.userLogin, modifier = modifier)
     }
 
     composable<AppGraph.SearchPerson> {
-        SearchPersonScreen()
+        val args = it.toRoute<AppGraph.SearchPerson>()
+
+        args.authUserId?.let { id ->
+            SearchPersonScreen(authUserId = id, modifier = modifier)
+        }
     }
 
     composable<AppGraph.PostScreen> { it ->
         val args = it.toRoute<AppGraph.PostScreen>()
 
         args.id?.let { id ->
-            SelectedPostScreen(id = id)
+            SelectedPostScreen(id = id, modifier = modifier)
         }
     }
 
     composable<AppGraph.UserPostsScreen> {
-        val args = it.toRoute<AppGraph.PostScreen>()
+        val args = it.toRoute<AppGraph.UserPostsScreen>()
 
         args.id?.let { id ->
-            UserPostsScreen(id = id)
+            UserPostsScreen(id = id, modifier = modifier)
         }
     }
 
     composable<AppGraph.UserDetailsScreen> {
-        val args = it.toRoute<AppGraph.PostScreen>()
+        val args = it.toRoute<AppGraph.UserDetailsScreen>()
 
         args.id?.let { id ->
-            UserDetailsScreen(id = id)
+            UserDetailsScreen(id = id, isAnotherUser = args.isAnotherUser, modifier = modifier)
         }
     }
 }

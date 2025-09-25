@@ -7,4 +7,5 @@
     <string name="error_get_user_posts">Не удалось получить данные о постах пользователя</string>
     <string name="error_get_users">Не удалось получить данные о пользователях</string>
     <string name="error_get_user">Не удалось получить данные о пользователе</string>
+    <string name="error_get_comments">Не удалось получить данные о комментариях</string>
 </resources>
