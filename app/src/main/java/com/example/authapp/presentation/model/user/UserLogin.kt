@@ -1,5 +1,8 @@
 package com.example.authapp.presentation.model.user
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class UserLogin(
     val id: Int = 0,
     val username: String = "",

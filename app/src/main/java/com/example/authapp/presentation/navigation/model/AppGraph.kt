@@ -1,5 +1,6 @@
 package com.example.authapp.presentation.navigation.model
 
+import com.example.authapp.presentation.model.user.UserLogin
 import kotlinx.serialization.Serializable
 
 /**
@@ -12,7 +13,7 @@ sealed class AppGraph : NavigationDestination {
     data object AuthScreen : AppGraph()
 
     @Serializable
-    data object MainScreen : AppGraph()
+    data class MainScreen(val userLogin: UserLogin = UserLogin()) : AppGraph()
 
     @Serializable
     data class PostScreen(val id: Int? = null) : AppGraph()

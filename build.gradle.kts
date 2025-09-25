@@ -5,4 +5,5 @@ plugins {
     id("com.google.dagger.hilt.android") version "2.57.1" apply false
     id("com.google.devtools.ksp") version "2.2.10-2.0.2"
     id("org.jetbrains.kotlin.plugin.compose") version "2.2.10"
+    id("org.jetbrains.kotlin.plugin.serialization") version "2.2.10"
 }
